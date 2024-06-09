@@ -2,6 +2,7 @@
 using System.Net;
 using Serilog;
 using ALTNet.GameServer.Packets;
+using System.Text;
 
 namespace ALTNet.GameServer
 {
@@ -109,14 +110,26 @@ namespace ALTNet.GameServer
                 // ------- Handle Packet & Response ------- \\
                 Packet response = PacketHandler(packetId, packet);
 
-                var responseBuffer = PacketStream.EncodeToBuffer(packetStream.PacketId, PacketStream.EncodePacket(response));
-                writer.Write(responseBuffer);
+                var responseBuffer = PacketStream.EncodeToBuffer(response);
+                //writer.Write(responseBuffer);
+                Log.Information("responseBufferLength: " + responseBuffer.Length);
+
+                tcpClient.GetStream().BeginWrite(responseBuffer, 0, responseBuffer.Length, new AsyncCallback(OnDataSent), tcpClient);
+
+                //tcpClient.GetStream().Write(responseBuffer, 0, responseBuffer.Length);
+
+                Log.Information("Packet Responded!");
                 // ---------------------------------------- \\
 
             }
 
             tcpClient.Close();
             Log.Information("Invalid Fence or Client Disconnected!");
+        }
+
+        private void OnDataSent(IAsyncResult ar)
+        {
+            Console.WriteLine("Data sent to client.");
         }
 
         public Packet PacketHandler(ClientPacketId packetId, Packet packet)

@@ -59,7 +59,7 @@ namespace ALTNet.GameServer.Packets
             return packetStream;
         }
 
-        public static byte[] EncodeToBuffer(ushort packetId, byte[] packetBuffer)
+        public static byte[] EncodeToBuffer(Packet packet)
         {
             byte[] encodedBuffer = null;
 
@@ -69,18 +69,24 @@ namespace ALTNet.GameServer.Packets
                 {
                     PacketWriter packetWriter = new PacketWriter(binaryWriter);
 
-                    int totalLength = 20;
-                    long sequence = 1;
-                    bool compressed = false;
-                    int bufferSize = packetBuffer.Length;
+                    PacketStream packetStream = EncodePacket(packet);
+                    Log.Information("EncodeToBuffer packetStream: " + packetStream.ToString());
+
+                    var sequence = packetStream.Sequence;
+                    var packetId = packetStream.PacketId;
+                    var compressed = packetStream.Compressed;
 
                     packetWriter.PutRawUint(2864434397U);
-                    packetWriter.PutRawInt(totalLength);
+                    packetWriter.PutRawInt(packetStream.TotalLength);
                     packetWriter.PutOrGet(ref sequence);
                     packetWriter.PutOrGet(ref packetId);
                     packetWriter.PutOrGet(ref compressed);
-                    packetWriter.PutInt(bufferSize);
-                    binaryWriter.Write(packetBuffer);
+                    
+                    BufferSimulator bufferSimulator = new BufferSimulator();
+
+                    packetWriter.PutInt(bufferSimulator.CalculateTotalSize(packetStream.Buffer));
+                    //packetWriter.PutInt(packetStream.Buffer.Length);
+                    binaryWriter.Write(packetStream.Buffer);
                     packetWriter.PutRawUint(287454020U);
 
                 }
@@ -90,9 +96,90 @@ namespace ALTNet.GameServer.Packets
             return encodedBuffer;
         }
 
-        public static byte[] EncodePacket(Packet packet)
+        private static int CalcTotalLength(PacketStream packetStream)
         {
-            return new byte[23];
+            var sequence = packetStream.Sequence;
+            var packetId = packetStream.PacketId;
+            var compressed = packetStream.Compressed;
+
+            PacketSizeChecker packetSizeChecker = new PacketSizeChecker();
+            packetSizeChecker.CheckRawUint32(2864434397U);
+            packetSizeChecker.CheckRawInt32(packetStream.TotalLength);
+            packetSizeChecker.PutOrGet(ref sequence);
+            packetSizeChecker.PutOrGet(ref packetId);
+            packetSizeChecker.PutOrGet(ref compressed);
+            packetSizeChecker.PutOrGet(packetStream.Buffer);
+            packetSizeChecker.CheckRawUint32(287454020U);
+            return packetSizeChecker.Size;
+        }
+
+        public static PacketStream EncodePacket(Packet packet)
+        {
+            var packetStream = new PacketStream()
+            {
+                Sequence = 1,
+                PacketId = GetPacketId(packet),
+            };
+
+            using (MemoryStream memoryStream = new MemoryStream())
+            {
+                using (BinaryWriter binaryWriter = new BinaryWriter(memoryStream))
+                {
+                    PacketWriter packetWriter = new PacketWriter(binaryWriter);
+
+                    packetWriter.PutWithoutNullBit(packet);
+                }
+
+                packetStream.Buffer = memoryStream.ToArray();
+            }
+
+            if (packetStream.Buffer.Length > 1024) // TODO: calculate actual custom buffer size
+            {
+                // compress idk...
+                packetStream.Compressed = true;
+            } 
+            
+            else
+            {
+                Crypto.Encrypt(packetStream.Buffer, packetStream.Buffer.Length);
+            }
+
+            packetStream.TotalLength = PacketStream.CalcTotalLength(packetStream);
+
+            return packetStream;
+        }
+
+        public class BufferSimulator
+        {
+            private const int BufferSize = 4096;
+
+            public int CalculateTotalSize(byte[] buffer)
+            {
+                if (buffer == null)
+                {
+                    throw new ArgumentNullException(nameof(buffer));
+                }
+
+                int totalSize = 0;
+                int bufferLength = buffer.Length;
+                int offset = 0;
+
+                while (offset < bufferLength)
+                {
+                    int chunkSize = Math.Min(BufferSize, bufferLength - offset);
+                    totalSize += chunkSize;
+                    offset += chunkSize;
+                }
+
+                return totalSize;
+            }
+        }
+
+        public static ushort GetPacketId(Packet packet)
+        {
+            var packetAtr = packet.GetType().GetCustomAttribute(typeof(PacketIdAttribute)) as PacketIdAttribute;
+
+            return packetAtr.PacketId;
         }
 
         public static Packet DecodePacket(BinaryReader reader, ushort packetId, bool compressed)
@@ -179,12 +266,12 @@ namespace ALTNet.GameServer.Packets
 
     public interface ISerializable
     {
-        void Serialize(PacketSerializer serializer);
+        void Serialize(IPacketStream serializer);
     }
 
     public class Packet : ISerializable
     {
-        public virtual void Serialize(PacketSerializer serializer) { }
+        public virtual void Serialize(IPacketStream serializer) { }
 
         public override string ToString()
         {
@@ -226,7 +313,7 @@ namespace ALTNet.GameServer.Packets
         
         public TimeSpan utcOffset;
 
-        public override void Serialize(PacketSerializer serializer)
+        public override void Serialize(IPacketStream serializer)
         {
             base.Serialize(serializer);
         }
