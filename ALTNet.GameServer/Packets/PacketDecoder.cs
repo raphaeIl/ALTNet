@@ -787,6 +787,16 @@ namespace ALTNet.GameServer.Packets
     {
         private readonly BinaryWriter writer;
 
+        public static ZeroCopyBuffer ToBufferWithoutNullBit(ISerializable data)
+        {
+            ZeroCopyBuffer zeroCopyBuffer = new ZeroCopyBuffer();
+            PacketWriter packetWriter = new PacketWriter(zeroCopyBuffer.GetWriter());
+            {
+                packetWriter.PutWithoutNullBit(data);
+            }
+            return zeroCopyBuffer;
+        }
+
         public PacketWriter(BinaryWriter writer)
         {
             this.writer = writer;
@@ -1426,6 +1436,13 @@ namespace ALTNet.GameServer.Packets
             {
                 return this.size;
             }
+        }
+
+        public void PutOrGet(ZeroCopyBuffer data)
+        {
+            int num = data.CalcTotalSize();
+            this.CheckInt32(num);
+            this.size += num;
         }
 
         public void PutOrGet(byte[] data)

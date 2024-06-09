@@ -1,11 +1,13 @@
 ﻿using Serilog;
 using System.IO;
+using System.Net.Sockets;
 using System.Numerics;
 using System.Reflection;
 using System.Reflection.Metadata;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using System.Text;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace ALTNet.GameServer.Packets
 {
@@ -25,7 +27,8 @@ namespace ALTNet.GameServer.Packets
 
         public bool Compressed { get; set; }
 
-        public byte[] Buffer { get; set; }
+        //public byte[] Buffer { get; set; }
+        public ZeroCopyBuffer Buffer { get; set; }
 
         public int TotalLength { get; set; }
 
@@ -59,41 +62,36 @@ namespace ALTNet.GameServer.Packets
             return packetStream;
         }
 
-        public static byte[] EncodeToBuffer(Packet packet)
+        public static SendBuffer EncodeToSendBuffer(Packet packet)
         {
-            byte[] encodedBuffer = null;
+            SendBuffer sendBuffer = new SendBuffer();
 
-            using (MemoryStream memoryStream = new MemoryStream())
+            PacketStream.WriteTo(sendBuffer, packet);
+
+            return sendBuffer;
+        }
+
+        public static void WriteTo(SendBuffer sendBuffer, Packet packet)
+        {
+            using (BinaryWriter writer = sendBuffer.GetWriter())
             {
-                using (BinaryWriter binaryWriter = new BinaryWriter(memoryStream))
-                {
-                    PacketWriter packetWriter = new PacketWriter(binaryWriter);
+                PacketStream packetStream = EncodePacket(packet);
 
-                    PacketStream packetStream = EncodePacket(packet);
-                    Log.Information("EncodeToBuffer packetStream: " + packetStream.ToString());
+                PacketWriter packetWriter = new PacketWriter(writer);
 
-                    var sequence = packetStream.Sequence;
-                    var packetId = packetStream.PacketId;
-                    var compressed = packetStream.Compressed;
+                var sequence = packetStream.Sequence;
+                var packetId = packetStream.PacketId;
+                var compressed = packetStream.Compressed;
 
-                    packetWriter.PutRawUint(2864434397U);
-                    packetWriter.PutRawInt(packetStream.TotalLength);
-                    packetWriter.PutOrGet(ref sequence);
-                    packetWriter.PutOrGet(ref packetId);
-                    packetWriter.PutOrGet(ref compressed);
-                    
-                    BufferSimulator bufferSimulator = new BufferSimulator();
-
-                    packetWriter.PutInt(bufferSimulator.CalculateTotalSize(packetStream.Buffer));
-                    //packetWriter.PutInt(packetStream.Buffer.Length);
-                    binaryWriter.Write(packetStream.Buffer);
-                    packetWriter.PutRawUint(287454020U);
-
-                }
-                encodedBuffer = memoryStream.ToArray();
+                packetWriter.PutRawUint(2864434397U);
+                packetWriter.PutRawInt(packetStream.TotalLength);
+                packetWriter.PutOrGet(ref sequence);
+                packetWriter.PutOrGet(ref packetId);
+                packetWriter.PutOrGet(ref compressed);
+                packetWriter.PutInt(packetStream.Buffer.CalcTotalSize());
+                sendBuffer.Absorb(packetStream.Buffer);
+                packetWriter.PutRawUint(287454020U);
             }
-
-            return encodedBuffer;
         }
 
         private static int CalcTotalLength(PacketStream packetStream)
@@ -121,58 +119,26 @@ namespace ALTNet.GameServer.Packets
                 PacketId = GetPacketId(packet),
             };
 
-            using (MemoryStream memoryStream = new MemoryStream())
+            packetStream.Buffer = PacketWriter.ToBufferWithoutNullBit(packet);
+
+            Log.Information("packetStream.Buffer.CalcTotalSize(): " + packetStream.Buffer.CalcTotalSize());
+
+            if (packetStream.Buffer.CalcTotalSize() > 1024)
             {
-                using (BinaryWriter binaryWriter = new BinaryWriter(memoryStream))
-                {
-                    PacketWriter packetWriter = new PacketWriter(binaryWriter);
-
-                    packetWriter.PutWithoutNullBit(packet);
-                }
-
-                packetStream.Buffer = memoryStream.ToArray();
-            }
-
-            if (packetStream.Buffer.Length > 1024) // TODO: calculate actual custom buffer size
-            {
-                // compress idk...
+                // compress idk
+                packetStream.Buffer.Lz4Compress();
                 packetStream.Compressed = true;
             } 
             
             else
             {
-                Crypto.Encrypt(packetStream.Buffer, packetStream.Buffer.Length);
+                packetStream.Buffer.Encrypt();
             }
 
             packetStream.TotalLength = PacketStream.CalcTotalLength(packetStream);
+            Log.Information("packetStream.TotalLength:" + packetStream.TotalLength);
 
             return packetStream;
-        }
-
-        public class BufferSimulator
-        {
-            private const int BufferSize = 4096;
-
-            public int CalculateTotalSize(byte[] buffer)
-            {
-                if (buffer == null)
-                {
-                    throw new ArgumentNullException(nameof(buffer));
-                }
-
-                int totalSize = 0;
-                int bufferLength = buffer.Length;
-                int offset = 0;
-
-                while (offset < bufferLength)
-                {
-                    int chunkSize = Math.Min(BufferSize, bufferLength - offset);
-                    totalSize += chunkSize;
-                    offset += chunkSize;
-                }
-
-                return totalSize;
-            }
         }
 
         public static ushort GetPacketId(Packet packet)
@@ -191,6 +157,7 @@ namespace ALTNet.GameServer.Packets
             if (compressed)
             {
                 // idk
+                
             }
 
             Crypto.Encrypt(packetBuffer, packetBuffer.Length);
@@ -298,6 +265,7 @@ namespace ALTNet.GameServer.Packets
     [PacketId(ClientPacketId.kNKMPacket_CONTENTS_VERSION_REQ)]
     public sealed class NKMPacket_CONTENTS_VERSION_REQ : Packet
     {
+
     }
 
     [PacketId(ClientPacketId.kNKMPacket_CONTENTS_VERSION_ACK)]
@@ -315,7 +283,11 @@ namespace ALTNet.GameServer.Packets
 
         public override void Serialize(IPacketStream serializer)
         {
-            base.Serialize(serializer);
+            serializer.PutOrGetEnum<NKM_ERROR_CODE>(ref this.errorCode);
+            serializer.PutOrGet(ref this.contentsVersion);
+            serializer.PutOrGet(ref this.contentsTag);
+            serializer.PutOrGet(ref this.utcTime);
+            serializer.PutOrGet(ref this.utcOffset);
         }
     }
 }

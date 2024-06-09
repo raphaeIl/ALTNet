@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="lz4net" Version="1.0.15.93" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\ALTNet.GameServer\ALTNet.GameServer.csproj" />
     <ProjectReference Include="..\ALTNet.SDKServer\ALTNet.SDKServer.csproj" />
   </ItemGroup>
