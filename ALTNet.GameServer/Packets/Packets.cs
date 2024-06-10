@@ -1,5 +1,6 @@
 ﻿using Serilog;
 using System.IO;
+using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Numerics;
 using System.Reflection;
@@ -152,6 +153,8 @@ namespace ALTNet.GameServer.Packets
         {
             byte[] packetBuffer = GetPacketBuffer(reader);
 
+            Log.Information("packetId received: " + (ClientPacketId)packetId);
+
             Log.Information("packetBuffer: " + BitConverter.ToString(packetBuffer));
 
             if (compressed)
@@ -259,35 +262,6 @@ namespace ALTNet.GameServer.Packets
 
             sb.AppendLine("}");
             return sb.ToString();
-        }
-    }
-
-    [PacketId(ClientPacketId.kNKMPacket_CONTENTS_VERSION_REQ)]
-    public sealed class NKMPacket_CONTENTS_VERSION_REQ : Packet
-    {
-
-    }
-
-    [PacketId(ClientPacketId.kNKMPacket_CONTENTS_VERSION_ACK)]
-    public sealed class NKMPacket_CONTENTS_VERSION_ACK : Packet
-    {
-        public NKM_ERROR_CODE errorCode;
-
-        public string contentsVersion;
-
-        public List<string> contentsTag = new List<string>();
-
-        public DateTime utcTime;
-        
-        public TimeSpan utcOffset;
-
-        public override void Serialize(IPacketStream serializer)
-        {
-            serializer.PutOrGetEnum<NKM_ERROR_CODE>(ref this.errorCode);
-            serializer.PutOrGet(ref this.contentsVersion);
-            serializer.PutOrGet(ref this.contentsTag);
-            serializer.PutOrGet(ref this.utcTime);
-            serializer.PutOrGet(ref this.utcOffset);
         }
     }
 }
