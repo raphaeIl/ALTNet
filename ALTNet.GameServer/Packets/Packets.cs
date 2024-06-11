@@ -1,6 +1,7 @@
 ﻿using Serilog;
 using Cs.Protocol;
 using System.Reflection;
+using Protocol;
 
 namespace ALTNet.GameServer.Packets
 {
@@ -64,11 +65,22 @@ namespace ALTNet.GameServer.Packets
             return sendBuffer;
         }
 
-        public static void WriteTo(SendBuffer sendBuffer, ISerializable packet)
+        public static PacketStream EncodeToPacketStream(ISerializable packet)
         {
+            SendBuffer sendBuffer = new SendBuffer();
+            var ps = PacketStream.WriteTo(sendBuffer, packet);
+
+            return ps;
+        }
+
+
+        public static PacketStream WriteTo(SendBuffer sendBuffer, ISerializable packet)
+        {
+            PacketStream packetStream = default;
+
             using (BinaryWriter writer = sendBuffer.GetWriter())
             {
-                PacketStream packetStream = EncodePacket(packet);
+                packetStream = EncodePacket(packet);
 
                 PacketWriter packetWriter = new PacketWriter(writer);
 
@@ -85,6 +97,8 @@ namespace ALTNet.GameServer.Packets
                 sendBuffer.Absorb(packetStream.Buffer);
                 packetWriter.PutRawUint(287454020U);
             }
+
+            return packetStream;
         }
 
         private static int CalcTotalLength(PacketStream packetStream)
@@ -178,8 +192,6 @@ namespace ALTNet.GameServer.Packets
             {
                 var attributeInstance = type.GetCustomAttributes(packetAttribute, true).FirstOrDefault() as PacketIdAttribute;
 
-                Log.Information(type.ToString());
-
                 if (attributeInstance != null && attributeInstance.PacketId == packetId)
                 {
                     result = Activator.CreateInstance(type) as ISerializable;
@@ -207,22 +219,5 @@ namespace ALTNet.GameServer.Packets
                    $"  PacketId: {PacketId}\n" +
                    $"  Compressed: {Compressed}\n";
         }
-    }
-
-    [AttributeUsage(AttributeTargets.Class)]
-    public class PacketIdAttribute : Attribute
-    {
-        public PacketIdAttribute(object packetId)
-        {
-            string text = packetId.ToString();
-            this.PacketId = (ushort)Enum.Parse(packetId.GetType(), text);
-            this.PacketIdStr = string.Format("[{0}] {1}", this.PacketId, text);
-        }
-
-        public ushort PacketId { get; }
-
-        public string PacketIdStr { get; }
-
-        public const ushort InvalidPacketId = 65535;
     }
 }

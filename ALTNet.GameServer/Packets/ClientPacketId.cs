@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ALTNet.GameServer.Packets
+﻿namespace Protocol
 {
     public enum ClientPacketId : ushort
     {

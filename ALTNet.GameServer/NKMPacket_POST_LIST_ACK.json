@@ -1,0 +1,228 @@
+{
+    "postDataList": [
+        {
+            "postId": 8,
+            "postIndex": 737356941050713888,
+            "title": "SI_MAIL_AT_EVENT_TITLE",
+            "contents": "[June 5 ~ June 11] On-time gift has arrived! 「CounterSide x GUILTY GEAR -STRIVE-」コラボ記念！オンタイムイベント報酬が届きました！",
+            "sendDate": "2024-06-09T15:41:31.6",
+            "expirationDate": "2024-06-12T15:41:31.6",
+            "items": [
+                {
+                    "rewardType": 3,
+                    "paymentType": 0,
+                    "ID": 2,
+                    "Count": 7500,
+                    "DebugName": "[RT_MISC] id:2 count:7500 paymentType:NIPT_FREE"
+                },
+                {
+                    "rewardType": 3,
+                    "paymentType": 0,
+                    "ID": 1068,
+                    "Count": 25,
+                    "DebugName": "[RT_MISC] id:1068 count:25 paymentType:NIPT_FREE"
+                },
+                {
+                    "rewardType": 3,
+                    "paymentType": 0,
+                    "ID": 1016,
+                    "Count": 1,
+                    "DebugName": "[RT_MISC] id:1016 count:1 paymentType:NIPT_FREE"
+                }
+            ],
+            "PostTemplet": {
+                "Key": 8,
+                "PostType": 8,
+                "AllowReceiveAll": true,
+                "PostPeriod": 0
+            }
+        },
+        {
+            "postId": 2,
+            "postIndex": 737302990825584414,
+            "title": "SI_ATTEND_TAB_NAME_MAIN_CLB_001",
+            "contents": "SI_ATTEND_DESC_CLB_001@@1",
+            "sendDate": "2024-06-09T12:12:09.3871218",
+            "expirationDate": "2024-07-09T12:12:09.3871218",
+            "items": [
+                {
+                    "rewardType": 1,
+                    "paymentType": 0,
+                    "ID": 1182,
+                    "Count": 1,
+                    "DebugName": "[RT_UNIT] id:1182 count:1 paymentType:NIPT_FREE"
+                },
+                {
+                    "rewardType": 0,
+                    "paymentType": 0,
+                    "ID": 0,
+                    "Count": 0,
+                    "DebugName": "[RT_NONE] id:0 count:0 paymentType:NIPT_FREE"
+                },
+                {
+                    "rewardType": 0,
+                    "paymentType": 0,
+                    "ID": 0,
+                    "Count": 0,
+                    "DebugName": "[RT_NONE] id:0 count:0 paymentType:NIPT_FREE"
+                }
+            ],
+            "PostTemplet": {
+                "Key": 2,
+                "PostType": 2,
+                "AllowReceiveAll": true,
+                "PostPeriod": 0
+            }
+        },
+        {
+            "postId": 2,
+            "postIndex": 737302990825580318,
+            "title": "SI_ATTEND_TAB_NAME_MAIN_BONUS",
+            "contents": "SI_ATTEND_DESC_BONUS@@1",
+            "sendDate": "2024-06-09T12:12:09.3871206",
+            "expirationDate": "2024-07-09T12:12:09.3871206",
+            "items": [
+                {
+                    "rewardType": 3,
+                    "paymentType": 0,
+                    "ID": 1,
+                    "Count": 300000,
+                    "DebugName": "[RT_MISC] id:1 count:300000 paymentType:NIPT_FREE"
+                },
+                {
+                    "rewardType": 0,
+                    "paymentType": 0,
+                    "ID": 0,
+                    "Count": 0,
+                    "DebugName": "[RT_NONE] id:0 count:0 paymentType:NIPT_FREE"
+                },
+                {
+                    "rewardType": 0,
+                    "paymentType": 0,
+                    "ID": 0,
+                    "Count": 0,
+                    "DebugName": "[RT_NONE] id:0 count:0 paymentType:NIPT_FREE"
+                }
+            ],
+            "PostTemplet": {
+                "Key": 2,
+                "PostType": 2,
+                "AllowReceiveAll": true,
+                "PostPeriod": 0
+            }
+        },
+        {
+            "postId": 2,
+            "postIndex": 737302990825576222,
+            "title": "SI_ATTEND_TITLE_NEW_RENEWAL_01",
+            "contents": "SI_ATTEND_DESC_NEW_RENEWAL_01",
+            "sendDate": "2024-06-09T12:12:09.387119",
+            "expirationDate": "2024-07-09T12:12:09.387119",
+            "items": [
+                {
+                    "rewardType": 3,
+                    "paymentType": 0,
+                    "ID": 1,
+                    "Count": 1000000,
+                    "DebugName": "[RT_MISC] id:1 count:1000000 paymentType:NIPT_FREE"
+                },
+                {
+                    "rewardType": 0,
+                    "paymentType": 0,
+                    "ID": 0,
+                    "Count": 0,
+                    "DebugName": "[RT_NONE] id:0 count:0 paymentType:NIPT_FREE"
+                },
+                {
+                    "rewardType": 0,
+                    "paymentType": 0,
+                    "ID": 0,
+                    "Count": 0,
+                    "DebugName": "[RT_NONE] id:0 count:0 paymentType:NIPT_FREE"
+                }
+            ],
+            "PostTemplet": {
+                "Key": 2,
+                "PostType": 2,
+                "AllowReceiveAll": true,
+                "PostPeriod": 0
+            }
+        },
+        {
+            "postId": 2,
+            "postIndex": 737302990825572126,
+            "title": "SI_ATTEND_TITLE_NORMAL_01",
+            "contents": "SI_ATTEND_DESC_NORMAL_01",
+            "sendDate": "2024-06-09T12:12:09.3871154",
+            "expirationDate": "2024-07-09T12:12:09.3871154",
+            "items": [
+                {
+                    "rewardType": 3,
+                    "paymentType": 0,
+                    "ID": 1,
+                    "Count": 100000,
+                    "DebugName": "[RT_MISC] id:1 count:100000 paymentType:NIPT_FREE"
+                },
+                {
+                    "rewardType": 0,
+                    "paymentType": 0,
+                    "ID": 0,
+                    "Count": 0,
+                    "DebugName": "[RT_NONE] id:0 count:0 paymentType:NIPT_FREE"
+                },
+                {
+                    "rewardType": 0,
+                    "paymentType": 0,
+                    "ID": 0,
+                    "Count": 0,
+                    "DebugName": "[RT_NONE] id:0 count:0 paymentType:NIPT_FREE"
+                }
+            ],
+            "PostTemplet": {
+                "Key": 2,
+                "PostType": 2,
+                "AllowReceiveAll": true,
+                "PostPeriod": 0
+            }
+        },
+        {
+            "postId": 8,
+            "postIndex": 737302990825559838,
+            "title": "SI_MAIL_AT_EVENT_TITLE",
+            "contents": "[June 5 ~ June 11] On-time gift has arrived! 「CounterSide x GUILTY GEAR -STRIVE-」コラボ記念！オンタイムイベント報酬が届きました！",
+            "sendDate": "2024-06-09T12:12:09.3866667",
+            "expirationDate": "2024-06-12T12:12:09.3866667",
+            "items": [
+                {
+                    "rewardType": 3,
+                    "paymentType": 0,
+                    "ID": 2,
+                    "Count": 7500,
+                    "DebugName": "[RT_MISC] id:2 count:7500 paymentType:NIPT_FREE"
+                },
+                {
+                    "rewardType": 3,
+                    "paymentType": 0,
+                    "ID": 1068,
+                    "Count": 25,
+                    "DebugName": "[RT_MISC] id:1068 count:25 paymentType:NIPT_FREE"
+                },
+                {
+                    "rewardType": 3,
+                    "paymentType": 0,
+                    "ID": 1016,
+                    "Count": 1,
+                    "DebugName": "[RT_MISC] id:1016 count:1 paymentType:NIPT_FREE"
+                }
+            ],
+            "PostTemplet": {
+                "Key": 8,
+                "PostType": 8,
+                "AllowReceiveAll": true,
+                "PostPeriod": 0
+            }
+        }
+    ],
+    "postCount": 6,
+    "errorCode": 0
+}

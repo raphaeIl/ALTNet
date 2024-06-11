@@ -131,8 +131,6 @@ namespace NKM
 
 		public int m_lUserLevelEXP;
 
-		public NKMUserData.OnUserLevelUpdate dOnUserLevelUpdate;
-
 		public PvpState m_AsyncData = new PvpState();
 
 		public PvpState m_LeagueData = new PvpState();
@@ -150,8 +148,6 @@ namespace NKM
 		public bool m_LeagueOpen;
 
 		public DateTime LastPvpPointChargeTimeUTC;
-
-		public NKMUserData.OnCompanyBuffUpdate dOnCompanyBuffUpdate;
 
 		public DateTime m_GuildJoinDisableTime;
 
@@ -195,10 +191,6 @@ namespace NKM
 			Update,
 			Remove
 		}
-
-		public delegate void OnUserLevelUpdate(NKMUserData userData);
-
-		public delegate void OnCompanyBuffUpdate(NKMUserData userData);
 
 		public struct strMentoringData
 		{

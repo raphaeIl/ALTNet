@@ -12,6 +12,7 @@ namespace ALTNet.Common.Utils
 
         public static int GameServerPort = 22000;
 
+        public static string ReconnectKey = "";
 
     }
 }

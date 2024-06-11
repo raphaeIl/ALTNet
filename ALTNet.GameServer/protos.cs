@@ -14,6 +14,7 @@ using NKM;
 using Cs.Protocol;
 using ALTNet.GameServer.Packets;
 using ClientPacket.Account;
+using Protocol;
 
 namespace ALTNet.GameServer
 {
