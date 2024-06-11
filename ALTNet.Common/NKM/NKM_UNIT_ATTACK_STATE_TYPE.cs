@@ -1,0 +1,27 @@
+﻿using System;
+
+namespace NKM
+{
+	// Token: 0x020004AF RID: 1199
+	public enum NKM_UNIT_ATTACK_STATE_TYPE
+	{
+		// Token: 0x04002317 RID: 8983
+		INVALID,
+		// Token: 0x04002318 RID: 8984
+		ATTACK,
+		// Token: 0x04002319 RID: 8985
+		AIR_ATTACK,
+		// Token: 0x0400231A RID: 8986
+		PASSIVE,
+		// Token: 0x0400231B RID: 8987
+		AIR_PASSIVE,
+		// Token: 0x0400231C RID: 8988
+		SKILL,
+		// Token: 0x0400231D RID: 8989
+		AIR_SKILL,
+		// Token: 0x0400231E RID: 8990
+		HYPER,
+		// Token: 0x0400231F RID: 8991
+		AIR_HYPER
+	}
+}

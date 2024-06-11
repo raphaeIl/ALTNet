@@ -1,0 +1,21 @@
+﻿using System;
+
+namespace NKM
+{
+	// Token: 0x0200043D RID: 1085
+	public enum NKM_MISSION_TAG
+	{
+		// Token: 0x04001DEE RID: 7662
+		TAG_ACHIEVE,
+		// Token: 0x04001DEF RID: 7663
+		TAG_COLLECT,
+		// Token: 0x04001DF0 RID: 7664
+		TAG_DAILY,
+		// Token: 0x04001DF1 RID: 7665
+		TAG_WEEKLY,
+		// Token: 0x04001DF2 RID: 7666
+		TAG_MONTHLY,
+		// Token: 0x04001DF3 RID: 7667
+		TAG_DAILY_BONUS
+	}
+}

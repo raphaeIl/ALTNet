@@ -1,0 +1,21 @@
+﻿using System;
+
+namespace NKM
+{
+	// Token: 0x020003EA RID: 1002
+	public enum NKM_DUNGEON_EVENT_TYPE
+	{
+		// Token: 0x04001379 RID: 4985
+		NDET_INVALID,
+		// Token: 0x0400137A RID: 4986
+		NDET_DECK,
+		// Token: 0x0400137B RID: 4987
+		NDET_ONE_TIME,
+		// Token: 0x0400137C RID: 4988
+		NDET_DIE,
+		// Token: 0x0400137D RID: 4989
+		NDET_TIME,
+		// Token: 0x0400137E RID: 4990
+		NDET_DIE_AFTER_TIME
+	}
+}

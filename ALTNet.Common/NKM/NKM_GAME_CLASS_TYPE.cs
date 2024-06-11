@@ -1,0 +1,19 @@
+﻿using System;
+
+namespace NKM
+{
+	// Token: 0x02000404 RID: 1028
+	public enum NKM_GAME_CLASS_TYPE
+	{
+		// Token: 0x04001B8C RID: 7052
+		NGCT_INVALID,
+		// Token: 0x04001B8D RID: 7053
+		NGCT_GAME,
+		// Token: 0x04001B8E RID: 7054
+		NGCT_GAME_CLIENT,
+		// Token: 0x04001B8F RID: 7055
+		NGCT_GAME_SERVER,
+		// Token: 0x04001B90 RID: 7056
+		NGCT_GAME_SERVER_LOCAL
+	}
+}

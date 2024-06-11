@@ -1,0 +1,41 @@
+﻿using System;
+
+namespace NKM
+{
+	// Token: 0x0200045B RID: 1115
+	public enum DRAFT_PVP_ROOM_STATE
+	{
+		// Token: 0x0400200A RID: 8202
+		INIT,
+		// Token: 0x0400200B RID: 8203
+		BAN_ALL,
+		// Token: 0x0400200C RID: 8204
+		BAN_COMPLETE,
+		// Token: 0x0400200D RID: 8205
+		PICK_UNIT_1,
+		// Token: 0x0400200E RID: 8206
+		PICK_UNIT_2,
+		// Token: 0x0400200F RID: 8207
+		PICK_UNIT_3,
+		// Token: 0x04002010 RID: 8208
+		PICK_UNIT_4,
+		// Token: 0x04002011 RID: 8209
+		PICK_UNIT_5,
+		// Token: 0x04002012 RID: 8210
+		PICK_UNIT_6,
+		// Token: 0x04002013 RID: 8211
+		PICK_UNIT_7,
+		// Token: 0x04002014 RID: 8212
+		PICK_UNIT_8,
+		// Token: 0x04002015 RID: 8213
+		PICK_UNIT_9,
+		// Token: 0x04002016 RID: 8214
+		PICK_UNIT_10,
+		// Token: 0x04002017 RID: 8215
+		BAN_OPPONENT,
+		// Token: 0x04002018 RID: 8216
+		PICK_ETC,
+		// Token: 0x04002019 RID: 8217
+		DRAFT_COMPLETE
+	}
+}

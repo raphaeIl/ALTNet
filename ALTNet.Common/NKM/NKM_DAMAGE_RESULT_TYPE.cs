@@ -1,0 +1,25 @@
+﻿using System;
+
+namespace NKM
+{
+	// Token: 0x02000492 RID: 1170
+	public enum NKM_DAMAGE_RESULT_TYPE : byte
+	{
+		// Token: 0x040021D2 RID: 8658
+		NDRT_NORMAL,
+		// Token: 0x040021D3 RID: 8659
+		NDRT_NO_MARK,
+		// Token: 0x040021D4 RID: 8660
+		NDRT_PROTECT,
+		// Token: 0x040021D5 RID: 8661
+		NDRT_CRITICAL,
+		// Token: 0x040021D6 RID: 8662
+		NDRT_MISS,
+		// Token: 0x040021D7 RID: 8663
+		NDRT_WEAK,
+		// Token: 0x040021D8 RID: 8664
+		NDRT_HEAL,
+		// Token: 0x040021D9 RID: 8665
+		NDRT_COOL_TIME
+	}
+}

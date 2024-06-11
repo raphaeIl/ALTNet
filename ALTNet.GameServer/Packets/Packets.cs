@@ -1,14 +1,6 @@
 ﻿using Serilog;
-using System.IO;
-using System.Net.NetworkInformation;
-using System.Net.Sockets;
-using System.Numerics;
+using Cs.Protocol;
 using System.Reflection;
-using System.Reflection.Metadata;
-using System.Runtime.CompilerServices;
-using System.Runtime.Serialization;
-using System.Text;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace ALTNet.GameServer.Packets
 {
@@ -33,7 +25,7 @@ namespace ALTNet.GameServer.Packets
 
         public int TotalLength { get; set; }
 
-        public Packet Packet { get; set; }
+        public ISerializable Packet { get; set; }
 
         public static PacketStream DecodeFromStream(BinaryReader reader)
         {
@@ -63,7 +55,7 @@ namespace ALTNet.GameServer.Packets
             return packetStream;
         }
 
-        public static SendBuffer EncodeToSendBuffer(Packet packet)
+        public static SendBuffer EncodeToSendBuffer(ISerializable packet)
         {
             SendBuffer sendBuffer = new SendBuffer();
 
@@ -72,7 +64,7 @@ namespace ALTNet.GameServer.Packets
             return sendBuffer;
         }
 
-        public static void WriteTo(SendBuffer sendBuffer, Packet packet)
+        public static void WriteTo(SendBuffer sendBuffer, ISerializable packet)
         {
             using (BinaryWriter writer = sendBuffer.GetWriter())
             {
@@ -112,7 +104,7 @@ namespace ALTNet.GameServer.Packets
             return packetSizeChecker.Size;
         }
 
-        public static PacketStream EncodePacket(Packet packet)
+        public static PacketStream EncodePacket(ISerializable packet)
         {
             var packetStream = new PacketStream()
             {
@@ -142,14 +134,14 @@ namespace ALTNet.GameServer.Packets
             return packetStream;
         }
 
-        public static ushort GetPacketId(Packet packet)
+        public static ushort GetPacketId(ISerializable packet)
         {
             var packetAtr = packet.GetType().GetCustomAttribute(typeof(PacketIdAttribute)) as PacketIdAttribute;
 
             return packetAtr.PacketId;
         }
 
-        public static Packet DecodePacket(BinaryReader reader, ushort packetId, bool compressed)
+        public static ISerializable DecodePacket(BinaryReader reader, ushort packetId, bool compressed)
         {
             byte[] packetBuffer = GetPacketBuffer(reader);
 
@@ -171,7 +163,7 @@ namespace ALTNet.GameServer.Packets
 
             packetReader.DeserializePacket(packet); // this is modifying the packet passed in
 
-            return packet as Packet;
+            return packet;
         }
 
         private static ISerializable CreatePacket(ushort packetId)
@@ -179,7 +171,7 @@ namespace ALTNet.GameServer.Packets
             Assembly assembly = Assembly.GetExecutingAssembly();
             Type packetAttribute = typeof(PacketIdAttribute);
 
-            var allPacketsTypes = assembly.GetTypes().Where(x => x.IsSubclassOf(typeof(Packet)) && x.GetCustomAttributes(packetAttribute, true).Length > 0).ToList();
+            var allPacketsTypes = assembly.GetTypes().Where(x => x.GetCustomAttributes(packetAttribute, true).Length > 0).ToList();
             ISerializable result = default;
 
             foreach (var type in allPacketsTypes)
@@ -232,36 +224,5 @@ namespace ALTNet.GameServer.Packets
         public string PacketIdStr { get; }
 
         public const ushort InvalidPacketId = 65535;
-    }
-
-    public interface ISerializable
-    {
-        void Serialize(IPacketStream serializer);
-    }
-
-    public class Packet : ISerializable
-    {
-        public virtual void Serialize(IPacketStream serializer) { }
-
-        public override string ToString()
-        {
-            if (this == null)
-                return "null";
-
-            Type type = this.GetType();
-            FieldInfo[] fields = type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
-
-            StringBuilder sb = new StringBuilder();
-            sb.AppendLine(type.Name + " {");
-
-            foreach (FieldInfo field in fields)
-            {
-                object value = field.GetValue(this);
-                sb.AppendLine($"  {field.Name}: {value}");
-            }
-
-            sb.AppendLine("}");
-            return sb.ToString();
-        }
     }
 }

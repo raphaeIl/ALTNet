@@ -1,0 +1,23 @@
+﻿using System;
+
+namespace NKM.Templet
+{
+	// Token: 0x02000627 RID: 1575
+	public enum NKM_WARFARE_MAP_TILE_TYPE
+	{
+		// Token: 0x0400302E RID: 12334
+		NWMTT_DISABLE,
+		// Token: 0x0400302F RID: 12335
+		NWMTT_NORMAL,
+		// Token: 0x04003030 RID: 12336
+		NWMTT_RESUPPLY,
+		// Token: 0x04003031 RID: 12337
+		NWMTT_REPAIR,
+		// Token: 0x04003032 RID: 12338
+		NWMTT_INCR,
+		// Token: 0x04003033 RID: 12339
+		NWNTT_SERVICE,
+		// Token: 0x04003034 RID: 12340
+		NWNTT_CHEST
+	}
+}

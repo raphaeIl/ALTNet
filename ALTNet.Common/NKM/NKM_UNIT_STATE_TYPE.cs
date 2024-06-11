@@ -1,0 +1,27 @@
+﻿using System;
+
+namespace NKM
+{
+	// Token: 0x020004AE RID: 1198
+	public enum NKM_UNIT_STATE_TYPE : short
+	{
+		// Token: 0x0400230D RID: 8973
+		NUST_INVALID,
+		// Token: 0x0400230E RID: 8974
+		NUST_START,
+		// Token: 0x0400230F RID: 8975
+		NUST_ASTAND,
+		// Token: 0x04002310 RID: 8976
+		NUST_MOVE,
+		// Token: 0x04002311 RID: 8977
+		NUST_DAMAGE,
+		// Token: 0x04002312 RID: 8978
+		NUST_ATTACK,
+		// Token: 0x04002313 RID: 8979
+		NUST_SKILL,
+		// Token: 0x04002314 RID: 8980
+		NUST_DIE,
+		// Token: 0x04002315 RID: 8981
+		NUST_FINISH
+	}
+}

@@ -1,0 +1,19 @@
+﻿using System;
+
+namespace NKM.Templet
+{
+	// Token: 0x020005D4 RID: 1492
+	public enum NKM_DIVE_ARTIFACT_CATEGORY
+	{
+		// Token: 0x04002CF8 RID: 11512
+		NDAC_ALL,
+		// Token: 0x04002CF9 RID: 11513
+		NDAC_COUNTER,
+		// Token: 0x04002CFA RID: 11514
+		NDAC_SOLDIER,
+		// Token: 0x04002CFB RID: 11515
+		NDAC_MECHANIC,
+		// Token: 0x04002CFC RID: 11516
+		NDAC_ETC
+	}
+}

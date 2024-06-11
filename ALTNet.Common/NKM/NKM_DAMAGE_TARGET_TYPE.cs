@@ -1,0 +1,23 @@
+﻿using System;
+
+namespace NKM
+{
+	// Token: 0x020004B0 RID: 1200
+	public enum NKM_DAMAGE_TARGET_TYPE
+	{
+		// Token: 0x04002321 RID: 8993
+		NDTT_INVALID,
+		// Token: 0x04002322 RID: 8994
+		NDTT_ENEMY,
+		// Token: 0x04002323 RID: 8995
+		NDTT_MY_TEAM,
+		// Token: 0x04002324 RID: 8996
+		NDTT_MY_TEAM_NOT_SELF,
+		// Token: 0x04002325 RID: 8997
+		NDTT_ALL,
+		// Token: 0x04002326 RID: 8998
+		NDTT_ALL_NOT_SELF,
+		// Token: 0x04002327 RID: 8999
+		NDTT_SELF_ONLY
+	}
+}

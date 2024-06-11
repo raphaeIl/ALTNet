@@ -1,0 +1,17 @@
+﻿using System;
+
+namespace NKM
+{
+	// Token: 0x020003DF RID: 991
+	public enum NKM_DECK_STATE
+	{
+		// Token: 0x0400133F RID: 4927
+		DECK_STATE_NORMAL,
+		// Token: 0x04001340 RID: 4928
+		DECK_STATE_WORLDMAP_MISSION,
+		// Token: 0x04001341 RID: 4929
+		DECK_STATE_WARFARE,
+		// Token: 0x04001342 RID: 4930
+		DECK_STATE_DIVE
+	}
+}

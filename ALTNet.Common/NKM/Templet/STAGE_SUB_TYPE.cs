@@ -1,0 +1,19 @@
+﻿using System;
+
+namespace NKM.Templet
+{
+	// Token: 0x0200063B RID: 1595
+	public enum STAGE_SUB_TYPE
+	{
+		// Token: 0x04003101 RID: 12545
+		SST_NORMAL,
+		// Token: 0x04003102 RID: 12546
+		SST_PRACTICE,
+		// Token: 0x04003103 RID: 12547
+		SST_TUTORIAL,
+		// Token: 0x04003104 RID: 12548
+		SST_KILLCOUNT,
+		// Token: 0x04003105 RID: 12549
+		SST_TIMEATTACK
+	}
+}

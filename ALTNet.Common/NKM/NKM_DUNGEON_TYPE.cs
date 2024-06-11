@@ -1,0 +1,27 @@
+﻿using System;
+
+namespace NKM
+{
+	// Token: 0x020003E8 RID: 1000
+	public enum NKM_DUNGEON_TYPE
+	{
+		// Token: 0x0400136A RID: 4970
+		NDT_INVALID,
+		// Token: 0x0400136B RID: 4971
+		NDT_BOSS_KILL,
+		// Token: 0x0400136C RID: 4972
+		NDT_CUTSCENE,
+		// Token: 0x0400136D RID: 4973
+		NDT_WAVE,
+		// Token: 0x0400136E RID: 4974
+		NDT_DAMAGE_ACCRUE,
+		// Token: 0x0400136F RID: 4975
+		NDT_RAID,
+		// Token: 0x04001370 RID: 4976
+		NDT_SOLO_RAID,
+		// Token: 0x04001371 RID: 4977
+		NDT_FIERCE,
+		// Token: 0x04001372 RID: 4978
+		NDT_TRIM
+	}
+}

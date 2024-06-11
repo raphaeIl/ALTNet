@@ -1,0 +1,21 @@
+﻿using System;
+
+namespace ClientPacket.Warfare
+{
+	// Token: 0x02000D60 RID: 3424
+	public enum NKM_WARFARE_GAME_STATE : byte
+	{
+		// Token: 0x0400917B RID: 37243
+		NWGS_STOP,
+		// Token: 0x0400917C RID: 37244
+		NWGS_PLAYING,
+		// Token: 0x0400917D RID: 37245
+		NWGS_INGAME_PLAY_TRY_READY,
+		// Token: 0x0400917E RID: 37246
+		NWGS_INGAME_PLAY_TRY,
+		// Token: 0x0400917F RID: 37247
+		NWGS_INGAME_PLAYING,
+		// Token: 0x04009180 RID: 37248
+		NWGS_RESULT
+	}
+}

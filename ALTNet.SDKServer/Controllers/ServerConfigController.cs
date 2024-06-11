@@ -40,7 +40,7 @@ namespace SCHALE.GameServer.Controllers
     },
     ""Global"": {
       //""ip"": ""ctsglobal-login.sbside.com"",
-      ""ip"": ""192.168.1.11"",
+      ""ip"": ""192.168.1.3"",
       ""port"": 22000,
       ""defaultTagSet"": [
         ""GLOBAL"",

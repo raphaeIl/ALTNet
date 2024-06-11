@@ -1,0 +1,23 @@
+﻿using System;
+
+namespace NKM
+{
+	// Token: 0x02000407 RID: 1031
+	public enum NKM_GAME_SYNC_DATA_TYPE : byte
+	{
+		// Token: 0x04001BB8 RID: 7096
+		NGSDT_BASE,
+		// Token: 0x04001BB9 RID: 7097
+		NGSDT_DIE_UNIT,
+		// Token: 0x04001BBA RID: 7098
+		NGSDT_UNIT,
+		// Token: 0x04001BBB RID: 7099
+		NGSDT_UNIT_SIMPLE,
+		// Token: 0x04001BBC RID: 7100
+		NGSDT_SHIP_SKILL,
+		// Token: 0x04001BBD RID: 7101
+		NGSDT_DECK,
+		// Token: 0x04001BBE RID: 7102
+		NGSDT_GAME_STATE
+	}
+}

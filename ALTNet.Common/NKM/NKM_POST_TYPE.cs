@@ -1,0 +1,29 @@
+﻿using System;
+
+namespace NKM
+{
+	// Token: 0x02000461 RID: 1121
+	public enum NKM_POST_TYPE
+	{
+		// Token: 0x04002048 RID: 8264
+		NORMAL,
+		// Token: 0x04002049 RID: 8265
+		ANNOUNCEMENT,
+		// Token: 0x0400204A RID: 8266
+		SYSTEM,
+		// Token: 0x0400204B RID: 8267
+		GM,
+		// Token: 0x0400204C RID: 8268
+		REWARD_EVENT,
+		// Token: 0x0400204D RID: 8269
+		SHOP_PURCHASE,
+		// Token: 0x0400204E RID: 8270
+		WEB_COUPON,
+		// Token: 0x0400204F RID: 8271
+		OFFERWAL,
+		// Token: 0x04002050 RID: 8272
+		ON_TIME_EVENT,
+		// Token: 0x04002051 RID: 8273
+		BSIDE_COUPON
+	}
+}

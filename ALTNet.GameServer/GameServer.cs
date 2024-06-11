@@ -3,6 +3,9 @@ using System.Net;
 using Serilog;
 using ALTNet.GameServer.Packets;
 using System.Text;
+using ALTNet.Common.Utils;
+using Cs.Protocol;
+using NKM;
 
 namespace ALTNet.GameServer
 {
@@ -94,7 +97,7 @@ namespace ALTNet.GameServer
                 // ----------- Packet Decoding ---------`--- \\
                 var packetStream = PacketStream.DecodeFromStream(binaryReader);
 
-                Packet packet = packetStream.Packet;
+                ISerializable packet = packetStream.Packet;
                 ClientPacketId packetId = (ClientPacketId)packetStream.PacketId;
                 // ---------------------------------------- \\
 
@@ -112,7 +115,7 @@ namespace ALTNet.GameServer
 
 
                 // ------- Handle Packet & Response ------- \\
-                Packet response = PacketHandler(packetId, packet);
+                ISerializable response = PacketHandler(packetId, packet);
 
                 SendBuffer responseSendBuffer = PacketStream.EncodeToSendBuffer(response);
 
@@ -136,7 +139,7 @@ namespace ALTNet.GameServer
             Console.WriteLine("Data sent to client.");
         }
 
-        public Packet PacketHandler(ClientPacketId packetId, Packet req)
+        public ISerializable PacketHandler(ClientPacketId packetId, ISerializable req)
         {
             Log.Information($"Handling Packet: {packetId}...");
 
@@ -158,21 +161,48 @@ namespace ALTNet.GameServer
             return null;
         }
 
-        private Packet JOIN_LOBBY_REQ(NKMPacket_JOIN_LOBBY_REQ req) {
+        private ISerializable JOIN_LOBBY_REQ(NKMPacket_JOIN_LOBBY_REQ req)
+        {
 
             return new NKMPacket_JOIN_LOBBY_ACK()
             {
                 errorCode = NKM_ERROR_CODE.NEC_OK,
                 friendCode = 13126485,
-                //userData = new NKMUserData()
-                //{
-                //    m_eAuthLevel = NKM_USER_AUTH_LEVEL.NORMAL_USER,
-                //    m_UserLevel = 1,
-                //}
+                utcTime = DateTime.UtcNow,
+                utcOffset = TimeSpan.Parse("09:00:00"),
+                userData = new NKMUserData()
+                {
+                    m_eAuthLevel = NKM_USER_AUTH_LEVEL.NORMAL_USER,
+                    m_UserLevel = 1,
+                    m_ShopData = new()
+                    {
+                        histories = new(),
+                        randomShop = new()
+                        {
+                            datas = new(),
+                            nextRefreshDate = 638531861193270000,
+                            refreshCount = 5
+                        },
+                        subscriptions = new(),
+                    }
+                },
+                gameData = null,
+                intervalData = [
+                    new() {
+                        key = 10,
+                        strKey = "DATE_LOGIN_DEFAULT",
+                        startDate = DateTime.Parse("2020-01-01T04:00:00"),
+                        endDate = DateTime.Parse("2999-01-01T04:00:00"),
+                        repeatStartDate = 0,
+                        repeatEndDate = 0
+                    }
+
+                ]
+
             };
         }
 
-        public Packet CONTENTS_VERSION_Handler(NKMPacket_CONTENTS_VERSION_REQ req)
+        public ISerializable CONTENTS_VERSION_Handler(NKMPacket_CONTENTS_VERSION_REQ req)
         {
             return new NKMPacket_CONTENTS_VERSION_ACK()
             {
@@ -184,15 +214,15 @@ namespace ALTNet.GameServer
             };
         }
 
-        public Packet STEAM_LOGIN_Handler(NKMPacket_STEAM_LOGIN_REQ req)
+        public ISerializable STEAM_LOGIN_Handler(NKMPacket_STEAM_LOGIN_REQ req)
         {
             return new NKMPacket_LOGIN_ACK()
             {
                 errorCode = NKM_ERROR_CODE.NEC_OK,
                 accessToken = "d87a5aa0421b4eddad1809de9cf4d69b",
                 //gameServerIP = "ctsglobal-agame02.sbside.com",
-                gameServerIP = "192.168.1.11",
-                gameServerPort = 22000,
+                gameServerIP = Config.GameServerIP,
+                gameServerPort = Config.GameServerPort,
                 //gameServerPort = 20000,
                 contentsVersion = "7.2.e",
                 contentsTag = ZeroCopyInputStream.ContentsTag,
