@@ -2,8 +2,9 @@
 using Cs.Protocol;
 using System.Reflection;
 using Protocol;
+using ALTNet.GameServer.Core;
 
-namespace ALTNet.GameServer.Packets
+namespace ALTNet.GameServer.Protocol
 {
     public struct PacketStream
     {

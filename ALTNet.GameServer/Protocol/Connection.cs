@@ -1,18 +1,10 @@
-﻿using Cs.Protocol;
+﻿using ALTNet.GameServer.Core;
+using Cs.Protocol;
 using Protocol;
 using Serilog;
-using Serilog.Core;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Net.Http;
 using System.Net.Sockets;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ALTNet.GameServer.Packets
+namespace ALTNet.GameServer.Protocol
 {
     public class Connection
     {

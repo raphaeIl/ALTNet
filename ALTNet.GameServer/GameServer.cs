@@ -7,6 +7,8 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System.Reflection;
 using Protocol;
+using ALTNet.Common.Utils;
+using ALTNet.GameServer.Protocol;
 
 namespace ALTNet.GameServer
 {
@@ -23,11 +25,9 @@ namespace ALTNet.GameServer
             }
         }
 
-        public const int port = 22000;
-
         public GameServer()
         {
-            listener = new(IPAddress.Parse("0.0.0.0"), port);
+            listener = new(IPAddress.Parse("0.0.0.0"), Config.GameServerPort);
         }
 
         public void Start()
@@ -38,7 +38,7 @@ namespace ALTNet.GameServer
                 {
                     listener.Start();
 
-                    Log.Information($"{nameof(GameServer)} started and listening on port {port}");
+                    Log.Information($"{nameof(GameServer)} started and listening on port {Config.GameServerPort}");
 
                     while (true)
                     {
@@ -90,50 +90,6 @@ namespace ALTNet.GameServer
             MethodInfo methodInfo = type.GetMethod(handlerName, BindingFlags.Static | BindingFlags.Public);
 
             return methodInfo;
-        }
-
-        public static T FromJson<T>(string json)
-        {
-            string jsonData = File.ReadAllText(json);
-
-            var settings = new JsonSerializerSettings
-            {
-                ContractResolver = new DefaultValuesContractResolver()
-            };
-
-
-            return JsonConvert.DeserializeObject<T>(jsonData, settings);
-        }
-
-        public class DefaultValuesContractResolver : DefaultContractResolver
-        {
-            protected override JsonObjectContract CreateObjectContract(Type objectType)
-            {
-                JsonObjectContract contract = base.CreateObjectContract(objectType);
-                contract.DefaultCreator = () => CreateWithDefaults(objectType);
-                return contract;
-            }
-
-            private object CreateWithDefaults(Type objectType)
-            {
-                var instance = Activator.CreateInstance(objectType);
-
-                foreach (PropertyInfo property in objectType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
-                {
-                    if (property.CanWrite && property.PropertyType.IsValueType && !property.PropertyType.IsEnum)
-                    {
-                        property.SetValue(instance, Activator.CreateInstance(property.PropertyType));
-                    } else if (property.CanWrite && property.PropertyType == typeof(string))
-                    {
-                        property.SetValue(instance, string.Empty);
-                    } else if (property.CanWrite && property.PropertyType.IsClass)
-                    {
-                        property.SetValue(instance, null);
-                    }
-                }
-
-                return instance;
-            }
         }
     }
 }

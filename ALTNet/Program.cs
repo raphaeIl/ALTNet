@@ -1,9 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Serilog.Events;
 using Serilog;
-using ALTNet.GameServer;
-
-using NKM;
 
 namespace ALTNet
 {

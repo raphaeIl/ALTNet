@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ALTNet.GameServer.Packets
+namespace ALTNet.GameServer.Core
 {
     public sealed class SendBuffer
     {

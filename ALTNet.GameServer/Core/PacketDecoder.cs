@@ -3,7 +3,7 @@ using Cs.Protocol;
 using System.Collections;
 using System.Text;
 
-namespace ALTNet.GameServer.Packets
+namespace ALTNet.GameServer.Core
 {
     public class PacketReader : IPacketStream
     {

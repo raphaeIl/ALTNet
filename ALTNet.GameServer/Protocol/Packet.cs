@@ -1,4 +1,5 @@
-﻿using Cs.Protocol;
+﻿using ALTNet.GameServer.Core;
+using Cs.Protocol;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ALTNet.GameServer.Packets
+namespace ALTNet.GameServer.Protocol
 {
     public struct Packet
     {

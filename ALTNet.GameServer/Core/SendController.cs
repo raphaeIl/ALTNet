@@ -1,4 +1,5 @@
-﻿using Serilog;
+﻿using ALTNet.GameServer.Protocol;
+using Serilog;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ALTNet.GameServer.Packets
+namespace ALTNet.GameServer.Core
 {
     internal sealed class SendController : IDisposable
     {
