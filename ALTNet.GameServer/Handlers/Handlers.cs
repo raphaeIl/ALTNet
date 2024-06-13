@@ -2,6 +2,7 @@
 using ALTNet.GameServer.Packets;
 using ClientPacket.Account;
 using ClientPacket.Community;
+using ClientPacket.Defence;
 using ClientPacket.Game;
 using ClientPacket.Item;
 using ClientPacket.Mode;
@@ -22,10 +23,17 @@ namespace ALTNet.GameServer.Handlers
     {
         public static NKMPacket_CONTENTS_VERSION_ACK kNKMPacket_CONTENTS_VERSION_REQ_Handler(ISerializable req)
         {
+            var rsp = GameServer.FromJson<NKMPacket_CONTENTS_VERSION_ACK>("E:\\documents\\Decompiling\\Extracted\\CounterSide\\ps\\ALTNet\\ALTNet.GameServer\\kNKMPacket_CONTENTS_VERSION_ACK.json");
+
+            rsp.utcTime = DateTime.UtcNow;
+            rsp.contentsTag = ZeroCopyInputStream.ContentsTag;
+
+            return rsp;
             return new NKMPacket_CONTENTS_VERSION_ACK()
             {
                 errorCode = NKM_ERROR_CODE.NEC_OK,
-                contentsVersion = "7.2.e",
+                //contentsVersion = "7.2.e",
+                contentsVersion = "7.2.f",
                 utcTime = DateTime.UtcNow,
                 utcOffset = TimeSpan.Parse("09:00:00"),
                 contentsTag = ZeroCopyInputStream.ContentsTag,
@@ -34,6 +42,10 @@ namespace ALTNet.GameServer.Handlers
 
         public static NKMPacket_LOGIN_ACK kNKMPacket_STEAM_LOGIN_REQ_Handler(ISerializable req)
         {
+            var rsp = GameServer.FromJson<NKMPacket_LOGIN_ACK>("E:\\documents\\Decompiling\\Extracted\\CounterSide\\ps\\ALTNet\\ALTNet.GameServer\\kNKMPacket_LOGIN_ACK.json");
+
+            rsp.contentsTag = ZeroCopyInputStream.ContentsTag;
+            return rsp;
             return new NKMPacket_LOGIN_ACK()
             {
                 errorCode = NKM_ERROR_CODE.NEC_OK,
@@ -42,7 +54,7 @@ namespace ALTNet.GameServer.Handlers
                 gameServerIP = Config.GameServerIP,
                 gameServerPort = Config.GameServerPort,
                 //gameServerPort = 20000,
-                contentsVersion = "7.2.e",
+                contentsVersion = "7.2.f",
                 contentsTag = ZeroCopyInputStream.ContentsTag,
             };
         }
@@ -50,11 +62,20 @@ namespace ALTNet.GameServer.Handlers
         public static NKMPacket_JOIN_LOBBY_ACK kNKMPacket_JOIN_LOBBY_REQ_Handler(ISerializable req)
         {
             var rsp = GameServer.FromJson<NKMPacket_JOIN_LOBBY_ACK>("E:\\documents\\Decompiling\\Extracted\\CounterSide\\ps\\ALTNet\\ALTNet.GameServer\\NKMPacket_JOIN_LOBBY_ACK.json");
-
+            //rsp.gameData.m_NKM_GAME_TYPE = NKM_GAME_TYPE.NGT_DEV;
             Log.Information("Pcap Response Loaded!" + rsp.friendCode);
 
             Config.ReconnectKey = rsp.reconnectKey;
             Log.Information("Reconnecting the client! Key: " + Config.ReconnectKey);
+
+            rsp.userData.m_companyBuffDataList = [
+                    new NKMCompanyBuffData(200, 3155378975999999999),
+                    new NKMCompanyBuffData(11002, 3155378975999999999),
+                    new NKMCompanyBuffData(11102, 3155378975999999999),
+            ];
+
+            rsp.utcTime = DateTime.UtcNow;
+            rsp.utcOffset = TimeSpan.Parse("09:00:00");
 
             return rsp;
         }
@@ -78,7 +99,7 @@ namespace ALTNet.GameServer.Handlers
             return new NKMPacket_FRIEND_LIST_ACK()
             {
                 errorCode = NKM_ERROR_CODE.NEC_OK,
-                friendListType = NKM_FRIEND_LIST_TYPE.BLOCKER,
+                friendListType = NKM_FRIEND_LIST_TYPE.RECEIVE_REQUEST,
                 list = []
             };
         }
@@ -120,7 +141,11 @@ namespace ALTNet.GameServer.Handlers
             return new NKMPacket_REFRESH_COMPANY_BUFF_ACK()
             {
                 errorCode = NKM_ERROR_CODE.NEC_OK,
-                companyBuffDataList = new()
+                companyBuffDataList = [
+                    new NKMCompanyBuffData(200, 3155378975999999999),
+                    new NKMCompanyBuffData(11002, 3155378975999999999),
+                    new NKMCompanyBuffData(11102, 3155378975999999999),
+                ]
             };
         }
 
@@ -141,5 +166,32 @@ namespace ALTNet.GameServer.Handlers
             rsp.gameServerPort = Config.GameServerPort;
             return rsp;
         }
+
+        public static NKMPacket_GAME_LOAD_COMPLETE_ACK kNKMPacket_GAME_LOAD_COMPLETE_REQ_Handler(ISerializable req)
+        {
+            var rsp = GameServer.FromJson<NKMPacket_GAME_LOAD_COMPLETE_ACK>("E:\\documents\\Decompiling\\Extracted\\CounterSide\\ps\\ALTNet\\ALTNet.GameServer\\kNKMPacket_GAME_LOAD_ACK.json");
+
+            return rsp;
+        }
+
+        public static NKMPacket_UI_SCEN_CHANGED_REQ kNKMPacket_UI_SCEN_CHANGED_REQ_Handler(ISerializable req)
+        {
+            return null;
+        }
+
+        public static NKMPacket_INFORM_MY_LOADING_PROGRESS_REQ kNKMPacket_INFORM_MY_LOADING_PROGRESS_REQ_Handler(ISerializable req)
+        {
+            return null;
+        }
+
+        public static NKMPacket_DEFENCE_INFO_ACK kNKMPacket_DEFENCE_INFO_REQ_Handler(ISerializable req)
+        {
+            var rsp = GameServer.FromJson<NKMPacket_DEFENCE_INFO_ACK>("E:\\documents\\Decompiling\\Extracted\\CounterSide\\ps\\ALTNet\\ALTNet.GameServer\\NKMPacket_DEFENCE_INFO_REQ.json");
+
+            return rsp;
+        }
+        
+
     }
+    
 }

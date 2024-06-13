@@ -77,6 +77,8 @@ namespace ALTNet.GameServer.Packets
 
 
                 // ----------- Packet Decoding ---------`--- \\
+
+
                 var packetStream = PacketStream.DecodeFromStream(this.reader);
 
                 ISerializable packet = packetStream.Packet;

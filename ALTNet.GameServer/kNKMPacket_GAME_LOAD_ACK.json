@@ -1,147 +1,123 @@
 {
-    "errorCode": 0,
-    "gameData": {
-        "m_GameUID": 737358899774211616,
-        "m_GameUnitUIDIndex": 9,
-        "m_bLocal": false,
-        "m_NKM_GAME_TYPE": 7,
-        "m_DungeonID": 1004,
-        "m_bBossDungeon": false,
-        "m_WarfareID": 0,
-        "m_RaidUID": 0,
-        "m_fRespawnCostMinusPercentForTeamA": 0.0,
-        "m_TeamASupply": 2,
-        "m_fTeamAAttackPowerIncRateForWarfare": 0.0,
-        "m_lstTeamABuffStrIDListForRaid": [],
-        "fExtraRespawnCostAddForA": 0.0,
-        "fExtraRespawnCostAddForB": 0.0,
-        "m_TeamBLevelAdd": 0,
-        "m_TeamBLevelFix": 0,
-        "m_BanUnitBuffStrIDs": [],
-        "m_bForcedAuto": false,
-        "m_fDoubleCostTime": 60.0,
-        "m_MapID": 1064,
-        "m_BattleConditionIDs": {},
-        "m_NKMGameTeamDataA": {
-            "m_eNKM_TEAM_TYPE": 1,
-            "m_LeaderUnitUID": 1001922187,
-            "m_UserLevel": 0,
-            "m_UserNickname": "Admin_0921120813",
-            "m_Tier": 0,
-            "m_Score": 0,
-            "m_WinStreak": 0,
-            "m_FriendCode": 0,
-            "m_userCommonProfile": {
-                "userUid": 0,
-                "friendCode": 0,
-                "nickname": null,
-                "level": 0,
-                "mainUnitId": 0,
-                "mainUnitSkinId": 0,
-                "frameId": 0,
-                "mainUnitTacticLevel": 0,
-                "titleId": 0
-            },
-            "guildSimpleData": {
-                "guildUid": 0,
-                "guildName": null,
-                "badgeId": 0
-            },
-            "m_MainShip": {
-                "m_UnitID": 204
-            },
-            "m_Operator": null,
-            "m_user_uid": 5764607523035979284,
-            "m_listUnitData": [
-                {
-                    "m_UnitID": 324
-                },
-                {
-                    "m_UnitID": 323
-                }
-            ],
-            "m_listAssistUnitData": [],
-            "m_listEvevtUnitData": [],
-            "m_listEnvUnitData": [],
-            "m_listDynamicRespawnUnitData": [],
-            "m_listTacticalCommandData": [],
-            "m_DeckData": {},
-            "m_fInitHP": 0.0,
-            "m_ItemEquipData": {},
-            "m_emoticonPreset": {
-                "animationList": [],
-                "textList": []
-            }
-        },
-        "m_NKMGameTeamDataB": {
-            "m_eNKM_TEAM_TYPE": 3,
-            "m_LeaderUnitUID": 1001922190,
-            "m_UserLevel": 1,
-            "m_UserNickname": "侵蚀瘤体",
-            "m_Tier": 0,
-            "m_Score": 0,
-            "m_WinStreak": 0,
-            "m_FriendCode": 0,
-            "m_userCommonProfile": {
-                "userUid": 0,
-                "friendCode": 0,
-                "nickname": null,
-                "level": 0,
-                "mainUnitId": 0,
-                "mainUnitSkinId": 0,
-                "frameId": 0,
-                "mainUnitTacticLevel": 0,
-                "titleId": 0
-            },
-            "guildSimpleData": {
-                "guildUid": 0,
-                "guildName": null,
-                "badgeId": 0
-            },
-            "m_MainShip": {
-                "m_UnitID": 401
-            },
-            "m_Operator": null,
-            "m_user_uid": 0,
-            "m_listUnitData": [],
-            "m_listAssistUnitData": [],
-            "m_listEvevtUnitData": [
-                {
-                    "m_UnitID": 402
-                },
-                {
-                    "m_UnitID": 402
-                },
-                {
-                    "m_UnitID": 402
-                },
-                {
-                    "m_UnitID": 402
-                },
-                {
-                    "m_UnitID": 402
-                }
-            ],
-            "m_listEnvUnitData": [],
-            "m_listDynamicRespawnUnitData": [],
-            "m_listTacticalCommandData": [],
-            "m_DeckData": {},
-            "m_fInitHP": 0.0,
-            "m_ItemEquipData": {},
-            "m_emoticonPreset": {
-                "animationList": [],
-                "textList": []
-            }
-        },
-        "m_replay": false,
-        "m_dicNKMBanData": {},
-        "m_dicNKMBanShipData": {},
-        "m_dicNKMBanOperatorData": {},
-        "m_dicNKMUpData": {},
-        "m_NKMGameStatRateID": null,
-        "isSurrenderGame": false,
-        "GameStatRate": null,
-        "IsPVPLeague": false
+  "errorCode": 0,
+  "gameData": {
+    "m_GameUID": 738441647743256098,
+    "m_GameUnitUIDIndex": 5,
+    "m_bLocal": false,
+    "m_NKM_GAME_TYPE": 7,
+    "m_DungeonID": 1005,
+    "m_bBossDungeon": false,
+    "m_WarfareID": 0,
+    "m_RaidUID": 0,
+    "m_fRespawnCostMinusPercentForTeamA": 0.0,
+    "m_TeamASupply": 2,
+    "m_fTeamAAttackPowerIncRateForWarfare": 0.0,
+    "m_lstTeamABuffStrIDListForRaid": [],
+    "fExtraRespawnCostAddForA": 0.0,
+    "fExtraRespawnCostAddForB": 0.0,
+    "m_TeamBLevelAdd": 0,
+    "m_TeamBLevelFix": 0,
+    "m_BanUnitBuffStrIDs": [],
+    "m_bForcedAuto": false,
+    "m_fDoubleCostTime": 60.0,
+    "m_MapID": 1065,
+    "m_BattleConditionIDs": {},
+    "m_NKMGameTeamDataA": {
+      "m_eNKM_TEAM_TYPE": 1,
+      "m_LeaderUnitUID": 1000172429,
+      "m_UserLevel": 0,
+      "m_UserNickname": "Admin_0521083777",
+      "m_Tier": 0,
+      "m_Score": 0,
+      "m_WinStreak": 0,
+      "m_FriendCode": 0,
+      "m_userCommonProfile": {
+        "userUid": 0,
+        "friendCode": 0,
+        "nickname": null,
+        "level": 0,
+        "mainUnitId": 0,
+        "mainUnitSkinId": 0,
+        "frameId": 0,
+        "mainUnitTacticLevel": 0,
+        "titleId": 0
+      },
+      "guildSimpleData": {
+        "guildUid": 0,
+        "guildName": null,
+        "badgeId": 0
+      },
+      "m_MainShip": { "m_UnitID": 204 },
+      "m_Operator": null,
+      "m_user_uid": 8070450532249665636,
+      "m_listUnitData": [
+        { "m_UnitID": 325 },
+        { "m_UnitID": 326 }
+      ],
+      "m_listAssistUnitData": [],
+      "m_listEvevtUnitData": [],
+      "m_listEnvUnitData": [],
+      "m_listDynamicRespawnUnitData": [],
+      "m_listTacticalCommandData": [],
+      "m_DeckData": {},
+      "m_fInitHP": 0.0,
+      "m_ItemEquipData": {},
+      "m_emoticonPreset": {
+        "animationList": [],
+        "textList": []
+      }
     },
-    "costItemDataList": []
+    "m_NKMGameTeamDataB": {
+      "m_eNKM_TEAM_TYPE": 3,
+      "m_LeaderUnitUID": 1000172432,
+      "m_UserLevel": 2,
+      "m_UserNickname": "小型荆棘塔",
+      "m_Tier": 0,
+      "m_Score": 0,
+      "m_WinStreak": 0,
+      "m_FriendCode": 0,
+      "m_userCommonProfile": {
+        "userUid": 0,
+        "friendCode": 0,
+        "nickname": null,
+        "level": 0,
+        "mainUnitId": 0,
+        "mainUnitSkinId": 0,
+        "frameId": 0,
+        "mainUnitTacticLevel": 0,
+        "titleId": 0
+      },
+      "guildSimpleData": {
+        "guildUid": 0,
+        "guildName": null,
+        "badgeId": 0
+      },
+      "m_MainShip": { "m_UnitID": 414 },
+      "m_Operator": null,
+      "m_user_uid": 0,
+      "m_listUnitData": [],
+      "m_listAssistUnitData": [],
+      "m_listEvevtUnitData": [ { "m_UnitID": 407 } ],
+      "m_listEnvUnitData": [],
+      "m_listDynamicRespawnUnitData": [],
+      "m_listTacticalCommandData": [],
+      "m_DeckData": {},
+      "m_fInitHP": 0.0,
+      "m_ItemEquipData": {},
+      "m_emoticonPreset": {
+        "animationList": [],
+        "textList": []
+      }
+    },
+    "m_replay": false,
+    "m_dicNKMBanData": {},
+    "m_dicNKMBanShipData": {},
+    "m_dicNKMBanOperatorData": {},
+    "m_dicNKMUpData": {},
+    "m_NKMGameStatRateID": null,
+    "isSurrenderGame": false,
+    "GameStatRate": null,
+    "IsPVPLeague": false
+  },
+  "costItemDataList": []
 }

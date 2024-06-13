@@ -1,12 +1,15 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Serilog.Events;
 using Serilog;
+using ALTNet.GameServer;
+
+using NKM;
 
 namespace ALTNet
 {
     internal class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             var config = new ConfigurationBuilder()
                 .SetBasePath(Path.GetDirectoryName(AppContext.BaseDirectory)!)

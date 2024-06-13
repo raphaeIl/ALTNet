@@ -1,0 +1,29 @@
+{
+    "errorCode": 0,
+    "defenceTempletId": 1001,
+    "bestScore": 0,
+    "missionResult1": false,
+    "missionResult2": false,
+    "rank": 0,
+    "rankPercent": 0,
+    "canReceiveRankReward": false,
+    "topRankProfile": {
+        "commonProfile": {
+            "userUid": 1677288,
+            "friendCode": 6941935,
+            "nickname": "Huzbad",
+            "level": 132,
+            "mainUnitId": 11110,
+            "mainUnitSkinId": 0,
+            "frameId": 8048,
+            "mainUnitTacticLevel": 0,
+            "titleId": 1500101
+        },
+        "bestScore": 449,
+        "guildData": {
+            "guildUid": 343060025151646209,
+            "guildName": "AwayFromKeyboard",
+            "badgeId": 9007007005
+        }
+    }
+}

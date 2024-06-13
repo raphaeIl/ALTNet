@@ -1,0 +1,44 @@
+{
+    "errorCode": 0,
+    "isIntrude": false,
+    "gameRuntimeData": {
+        "m_GameTime": 0.0,
+        "m_NKM_GAME_SPEED_TYPE": 0,
+        "m_PrevWaveEndTime": 0.0,
+        "m_NKM_GAME_STATE": 1,
+        "m_WaveID": 0,
+        "m_fRemainGameTime": 180.0,
+        "m_fShipDamage": 0.0,
+        "m_WinTeam": 0,
+        "m_bGameEnded": false,
+        "m_bPause": false,
+        "m_bGiveUp": false,
+        "m_bRestart": false,
+        "m_NKMGameRuntimeTeamDataA": {
+            "m_UserUID": 5764607523035979284,
+            "m_bAutoRespawn": false,
+            "m_bAIDisable": false,
+            "m_bGodMode": false,
+            "m_fRespawnCost": 5.0,
+            "m_fRespawnCostAssist": 0.0,
+            "m_fUsedRespawnCost": 0.0,
+            "m_respawn_count": 0,
+            "m_NKM_GAME_AUTO_SKILL_TYPE": 1
+        },
+        "m_NKMGameRuntimeTeamDataB": {
+            "m_UserUID": 0,
+            "m_bAutoRespawn": true,
+            "m_bAIDisable": false,
+            "m_bGodMode": false,
+            "m_fRespawnCost": 8.0,
+            "m_fRespawnCostAssist": 0.0,
+            "m_fUsedRespawnCost": 0.0,
+            "m_respawn_count": 0,
+            "m_NKM_GAME_AUTO_SKILL_TYPE": 1
+        },
+        "m_bPracticeHeal": true,
+        "m_bPracticeFixedDamage": false,
+        "m_lstPermanentDungeonEvent": []
+    },
+    "rewardMultiply": 1
+}

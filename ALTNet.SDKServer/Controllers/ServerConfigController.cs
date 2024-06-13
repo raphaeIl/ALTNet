@@ -68,8 +68,7 @@ namespace SCHALE.GameServer.Controllers
       }
     },
   },
-  //""type"": ""LIVE"",
-  ""type"": ""PRIVATE"",
+  ""type"": ""LIVE"",
   ""cdn"": ""https://ctsglobal-cdndown.sbside.com/patchfiles/"",
   ""versionJson"": ""/liveVersion.json"",
   ""DownloadTimeout"": 300000
