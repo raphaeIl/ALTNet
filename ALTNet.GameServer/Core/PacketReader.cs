@@ -18,11 +18,6 @@ namespace ALTNet.GameServer.Core
             this.reader = new BinaryReader(new MemoryStream(buffer));
         }
 
-        public void DeserializePacket(ISerializable packet)
-        {
-            packet.Serialize(this);
-        }
-
         public void PutOrGet(ref bool data)
         {
             data = this.reader.ReadBoolean();

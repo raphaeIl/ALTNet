@@ -3,7 +3,6 @@ using Cs.Protocol;
 using Protocol;
 using Serilog;
 using System.Reflection;
-using System.Reflection.PortableExecutable;
 
 namespace ALTNet.GameServer.Protocol
 {
@@ -113,33 +112,44 @@ namespace ALTNet.GameServer.Protocol
             Log.Information($"packetId: {packetId}");
             Log.Information($"compressed: {compressed}");
 
-            ISerializable decodedPacket = Packet.DecodePacket(reader, packetId, compressed);
+            ISerializable decodedPacket = Packet.Extract(packetReader, packetId, compressed);
             return decodedPacket;
         }
 
-        private static ISerializable DecodePacket(BinaryReader reader, ushort packetId, bool compressed)
+        private static ISerializable Extract(PacketReader reader, ushort packetId, bool compressed)
         {
-            byte[] packetBuffer = GetPacketBuffer(reader);
-
             Log.Information("packetId received: " + (ClientPacketId)packetId);
 
-            Log.Information("packetBuffer: " + BitConverter.ToString(packetBuffer));
+            ISerializable resultPacket = Packet.CreatePacket(packetId);
 
-            if (compressed)
+            byte[] array = null;
+            reader.PutOrGet(ref array);
+
+            if (compressed) // no encryption if compressed
             {
-                // idk
+                Console.WriteLine("Packet.Extract: compressed");
+                ZeroCopyBuffer zeroCopyBuffer = Lz4Util.Decompress(array);
+                using (zeroCopyBuffer.Hold())
+                {
+                    using (PacketReader packetReader = new PacketReader(zeroCopyBuffer.GetReader()))
+                    {
+                        packetReader.GetWithoutNullBit(resultPacket);
+                    }
 
+                    goto on_compressed;
+                }
             }
 
-            Crypto.Encrypt(packetBuffer, packetBuffer.Length);
+            Crypto.Encrypt(array, array.Length);
 
-            PacketReader packetReader = new PacketReader(packetBuffer);
+            using (PacketReader packetReader2 = new PacketReader(array))
+            {
+                packetReader2.GetWithoutNullBit(resultPacket);
+                Console.WriteLine("Packet.Extract: reading packet using PacketReader");
+            }
 
-            ISerializable packet = Packet.CreatePacket(packetId);
-
-            packetReader.DeserializePacket(packet); // this is modifying the packet passed in
-
-            return packet;
+            on_compressed:
+            return resultPacket;
         }
 
         private static ISerializable CreatePacket(ushort packetId)
@@ -163,15 +173,5 @@ namespace ALTNet.GameServer.Protocol
 
             return result;
         }
-
-        private static byte[] GetPacketBuffer(BinaryReader reader)
-        {
-            int bufferLength = Decoder.Decode32(Decoder.ReadRawVarInt32(reader));
-
-            Log.Information($"GetPacketBuffer bufferLength: {bufferLength}");
-
-            return reader.ReadBytes(bufferLength);
-        }
-
     }
 }
