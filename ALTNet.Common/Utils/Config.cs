@@ -8,7 +8,7 @@ namespace ALTNet.Common.Utils
 {
     public static class Config
     {
-        public static string GameServerIP = "192.168.1.3";
+        public static string GameServerIP = "192.168.3.103";
 
         public static int GameServerPort = 22000;
 

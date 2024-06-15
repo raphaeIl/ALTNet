@@ -12,7 +12,6 @@ namespace ALTNet.GameServer.Core
 {
     internal sealed class SendController : IDisposable
     {
-        // Token: 0x0600CAC3 RID: 51907 RVA: 0x003B0318 File Offset: 0x003AE518
         public SendController(Socket socket)
         {
             this.socket_ = socket;
@@ -20,8 +19,6 @@ namespace ALTNet.GameServer.Core
             this.eventArgs_.Completed += this.OnSendCompleted;
         }
 
-        // Token: 0x17001BCD RID: 7117
-        // (get) Token: 0x0600CAC4 RID: 51908 RVA: 0x00089625 File Offset: 0x00087825
         public int MessageCount
         {
             get
@@ -30,13 +27,11 @@ namespace ALTNet.GameServer.Core
             }
         }
 
-        // Token: 0x0600CAC5 RID: 51909 RVA: 0x0008962D File Offset: 0x0008782D
         public void Dispose()
         {
             this.eventArgs_.Dispose();
         }
 
-        // Token: 0x0600CAC6 RID: 51910 RVA: 0x003B0390 File Offset: 0x003AE590
         public void Push(Packet data)
         {
             this.sendQueue_.Enqueue(data);
@@ -57,7 +52,6 @@ namespace ALTNet.GameServer.Core
             }
         }
 
-        // Token: 0x0600CAC7 RID: 51911 RVA: 0x0008963A File Offset: 0x0008783A
         public void TryConsumeQueue()
         {
             if (this.sendQueue_.Count == 0)
@@ -74,7 +68,6 @@ namespace ALTNet.GameServer.Core
 
         }
 
-        // Token: 0x0600CAC8 RID: 51912 RVA: 0x003B03F8 File Offset: 0x003AE5F8
         private void TryFillBuffer()
         {
             Packet packet;
@@ -86,14 +79,12 @@ namespace ALTNet.GameServer.Core
             }
         }
 
-        // Token: 0x0600CAC9 RID: 51913 RVA: 0x00089669 File Offset: 0x00087869
         private bool RequestSendAsync()
         {
             this.eventArgs_.SetBuffer(0, this.sendingBuffer_.HeadOffset);
             return this.socket_.SendAsync(this.eventArgs_);
         }
 
-        // Token: 0x0600CACA RID: 51914 RVA: 0x003B0458 File Offset: 0x003AE658
         private void OnSendCompleted(object sender, SocketAsyncEventArgs arg)
         {
             this.sendingBuffer_.Consume(arg.BytesTransferred);
@@ -116,22 +107,16 @@ namespace ALTNet.GameServer.Core
             }
         }
 
-        // Token: 0x0400BE0A RID: 48650
         private readonly Socket socket_;
 
-        // Token: 0x0400BE0B RID: 48651
         private SocketAsyncEventArgs eventArgs_ = new SocketAsyncEventArgs();
 
-        // Token: 0x0400BE0C RID: 48652
         private ConcurrentQueue<Packet> sendQueue_ = new ConcurrentQueue<Packet>();
 
-        // Token: 0x0400BE0D RID: 48653
         private SendBuffer sendingBuffer_ = new SendBuffer();
 
-        // Token: 0x0400BE0E RID: 48654
         private int messageCount_;
 
-        // Token: 0x0400BE0F RID: 48655
         private int sendingMessageCount_;
     }
 }

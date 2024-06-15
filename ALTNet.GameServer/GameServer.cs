@@ -1,10 +1,7 @@
 ﻿using System.Net.Sockets;
 using System.Net;
 using Serilog;
-using ALTNet.GameServer.Packets;
 using Cs.Protocol;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using System.Reflection;
 using Protocol;
 using ALTNet.Common.Utils;
@@ -61,7 +58,6 @@ namespace ALTNet.GameServer
 
             connection.HandleMessage(tcpClient);
         }
-
 
         public static ISerializable PacketHandler(ClientPacketId packetId, ISerializable req)
         {

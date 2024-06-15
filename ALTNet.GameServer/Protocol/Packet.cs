@@ -1,19 +1,14 @@
 ﻿using ALTNet.GameServer.Core;
 using Cs.Protocol;
+using Protocol;
 using Serilog;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+using System.Reflection.PortableExecutable;
 
 namespace ALTNet.GameServer.Protocol
 {
     public struct Packet
     {
-        // Token: 0x17001BE7 RID: 7143
-        // (get) Token: 0x0600CB83 RID: 52099 RVA: 0x00089ADD File Offset: 0x00087CDD
         public ushort PacketId
         {
             get
@@ -22,13 +17,12 @@ namespace ALTNet.GameServer.Protocol
             }
         }
 
-        // Token: 0x0600CB84 RID: 52100 RVA: 0x003B1D54 File Offset: 0x003AFF54
         public static Packet? Pack(ISerializable data, long sequence)
         {
             Packet packet = new Packet
             {
                 sequence = sequence,
-                packetId = PacketStream.GetPacketId(data)
+                packetId = Packet.GetPacketId(data)
             };
             if (packet.packetId == 65535)
             {
@@ -48,7 +42,6 @@ namespace ALTNet.GameServer.Protocol
             return new Packet?(packet);
         }
 
-        // Token: 0x0600CB87 RID: 52103 RVA: 0x003B21E0 File Offset: 0x003B03E0
         public void WriteTo(SendBuffer sendBuffer)
         {
             using (BinaryWriter writer = sendBuffer.GetWriter())
@@ -65,7 +58,6 @@ namespace ALTNet.GameServer.Protocol
             }
         }
 
-        // Token: 0x0600CB88 RID: 52104 RVA: 0x003B2394 File Offset: 0x003B0594
         private int CalcTotalLength()
         {
             PacketSizeChecker packetSizeChecker = new PacketSizeChecker();
@@ -79,31 +71,107 @@ namespace ALTNet.GameServer.Protocol
             return packetSizeChecker.Size;
         }
 
-        // Token: 0x0400BE40 RID: 48704
-        private const uint HeadFence = 2864434397U;
+        public static uint HeadFence = 2864434397U;
 
-        // Token: 0x0400BE41 RID: 48705
-        private const uint TailFence = 287454020U;
+        public static uint TailFence = 287454020U;
 
-        // Token: 0x0400BE42 RID: 48706
         private const int CompressThreshold = 1024;
 
-        // Token: 0x0400BE43 RID: 48707
         private const ushort MinHeaderSize = 12;
 
-        // Token: 0x0400BE44 RID: 48708
         private long sequence;
 
-        // Token: 0x0400BE45 RID: 48709
         private ushort packetId;
 
-        // Token: 0x0400BE46 RID: 48710
         private bool compressed;
 
-        // Token: 0x0400BE47 RID: 48711
         private ZeroCopyBuffer buffer;
 
-        // Token: 0x0400BE48 RID: 48712
         private int totalLength;
+
+        public static ushort GetPacketId(ISerializable packet)
+        {
+            var packetAtr = packet.GetType().GetCustomAttribute(typeof(PacketIdAttribute)) as PacketIdAttribute;
+
+            return packetAtr.PacketId;
+        }
+
+        // TODO: add support for multi request packet (pipes)
+        public static ISerializable DecodeFromStream(BinaryReader reader)
+        {
+            PacketReader packetReader = new PacketReader(reader);
+
+            int totalLength = reader.ReadInt32();
+            long sequence = packetReader.GetLong();
+            ushort packetId = packetReader.GetUshort();
+            bool compressed = packetReader.GetBool();
+
+            Log.Information("Decoding Packet from Stream...");
+
+            Log.Information($"Total Length: {totalLength}");
+            Log.Information($"sequence: {sequence}");
+            Log.Information($"packetId: {packetId}");
+            Log.Information($"compressed: {compressed}");
+
+            ISerializable decodedPacket = Packet.DecodePacket(reader, packetId, compressed);
+            return decodedPacket;
+        }
+
+        private static ISerializable DecodePacket(BinaryReader reader, ushort packetId, bool compressed)
+        {
+            byte[] packetBuffer = GetPacketBuffer(reader);
+
+            Log.Information("packetId received: " + (ClientPacketId)packetId);
+
+            Log.Information("packetBuffer: " + BitConverter.ToString(packetBuffer));
+
+            if (compressed)
+            {
+                // idk
+
+            }
+
+            Crypto.Encrypt(packetBuffer, packetBuffer.Length);
+
+            PacketReader packetReader = new PacketReader(packetBuffer);
+
+            ISerializable packet = Packet.CreatePacket(packetId);
+
+            packetReader.DeserializePacket(packet); // this is modifying the packet passed in
+
+            return packet;
+        }
+
+        private static ISerializable CreatePacket(ushort packetId)
+        {
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            Type packetAttribute = typeof(PacketIdAttribute);
+
+            var allPacketsTypes = assembly.GetTypes().Where(x => x.GetCustomAttributes(packetAttribute, true).Length > 0).ToList();
+            ISerializable result = default;
+
+            foreach (var type in allPacketsTypes)
+            {
+                var attributeInstance = type.GetCustomAttributes(packetAttribute, true).FirstOrDefault() as PacketIdAttribute;
+
+                if (attributeInstance != null && attributeInstance.PacketId == packetId)
+                {
+                    result = Activator.CreateInstance(type) as ISerializable;
+                    break;
+                }
+            }
+
+            return result;
+        }
+
+        private static byte[] GetPacketBuffer(BinaryReader reader)
+        {
+            int bufferLength = Decoder.Decode32(Decoder.ReadRawVarInt32(reader));
+
+            Log.Information($"GetPacketBuffer bufferLength: {bufferLength}");
+
+            return reader.ReadBytes(bufferLength);
+        }
+
     }
 }
