@@ -58,34 +58,5 @@ namespace ALTNet.GameServer
 
             connection.HandleMessage(tcpClient);
         }
-
-        public static ISerializable PacketHandler(ClientPacketId packetId, ISerializable req)
-        {
-            Log.Information($"Handling Packet: {packetId}...");
-
-            var handler = GetHandler(packetId);
-
-            if (handler != null)
-            {
-                Log.Information($"Found handler: {handler} for packetId: {packetId}");
-
-                var rsp = handler.Invoke(null, [req]) as ISerializable;
-
-                return rsp;
-            }
-
-            Log.Information($"No handler for packet {packetId}!");
-            return null;
-        }
-
-        public static MethodInfo GetHandler(ClientPacketId packetId)
-        {
-            var type = typeof(Handlers.Handlers);
-            var handlerName = $"{packetId}_Handler";
-
-            MethodInfo methodInfo = type.GetMethod(handlerName, BindingFlags.Static | BindingFlags.Public);
-
-            return methodInfo;
-        }
     }
 }

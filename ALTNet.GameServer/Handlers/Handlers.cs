@@ -1,5 +1,5 @@
 ﻿using ALTNet.Common.Utils;
-using ALTNet.GameServer.Packets;
+using ALTNet.GameServer.Protocol;
 using ClientPacket.Account;
 using ClientPacket.Community;
 using ClientPacket.Defence;
@@ -11,22 +11,18 @@ using ClientPacket.User;
 using Cs.Protocol;
 using NKM;
 using Serilog;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
 
 namespace ALTNet.GameServer.Handlers
 {
     public static class Handlers
     {
-        public static NKMPacket_CONTENTS_VERSION_ACK kNKMPacket_CONTENTS_VERSION_REQ_Handler(ISerializable req)
+        public static NKMPacket_CONTENTS_VERSION_ACK kNKMPacket_CONTENTS_VERSION_REQ_Handler(Connection connection, ISerializable req)
         {
             var rsp = PcapUtils.FromJson<NKMPacket_CONTENTS_VERSION_ACK>();
 
             rsp.utcTime = DateTime.UtcNow;
-            rsp.contentsTag = Config.ContentsTag;
+            //rsp.contentsTag = Config.ContentsTag;
 
             return rsp;
             return new NKMPacket_CONTENTS_VERSION_ACK()
@@ -40,11 +36,11 @@ namespace ALTNet.GameServer.Handlers
             };
         }
 
-        public static NKMPacket_LOGIN_ACK kNKMPacket_STEAM_LOGIN_REQ_Handler(ISerializable req)
+        public static NKMPacket_LOGIN_ACK kNKMPacket_STEAM_LOGIN_REQ_Handler(Connection connection, ISerializable req)
         {
             var rsp = PcapUtils.FromJson<NKMPacket_LOGIN_ACK>();
-
-            rsp.contentsTag = Config.ContentsTag;
+            
+            //rsp.contentsTag = Config.ContentsTag;
             return rsp;
             return new NKMPacket_LOGIN_ACK()
             {
@@ -59,7 +55,7 @@ namespace ALTNet.GameServer.Handlers
             };
         }
 
-        public static NKMPacket_JOIN_LOBBY_ACK kNKMPacket_JOIN_LOBBY_REQ_Handler(ISerializable req)
+        public static NKMPacket_JOIN_LOBBY_ACK kNKMPacket_JOIN_LOBBY_REQ_Handler(Connection connection, ISerializable req)
         {
             var rsp = PcapUtils.FromJson<NKMPacket_JOIN_LOBBY_ACK>();
             //rsp.gameData.m_NKM_GAME_TYPE = NKM_GAME_TYPE.NGT_DEV;
@@ -77,24 +73,32 @@ namespace ALTNet.GameServer.Handlers
             rsp.utcTime = DateTime.UtcNow;
             rsp.utcOffset = TimeSpan.Parse("09:00:00");
 
+            connection.RESET_GROUP_COUNT_NOT();
+
+            var companyAck = kNKMPacket_REFRESH_COMPANY_BUFF_REQ_Handler(connection, req);
+
+            connection.Send(companyAck);
+
+            connection.ATTENDANCE_NOT();
+
             return rsp;
         }
 
-        public static NKMPacket_POST_LIST_ACK kNKMPacket_POST_LIST_REQ_Handler(ISerializable req)
+        public static NKMPacket_POST_LIST_ACK kNKMPacket_POST_LIST_REQ_Handler(Connection connection, ISerializable req)
         {
             var rsp = PcapUtils.FromJson<NKMPacket_POST_LIST_ACK>();
 
             return rsp;
         }
 
-        public static NKMPacket_EQUIP_PRESET_LIST_ACK kNKMPacket_EQUIP_PRESET_LIST_REQ_Handler(ISerializable req)
+        public static NKMPacket_EQUIP_PRESET_LIST_ACK kNKMPacket_EQUIP_PRESET_LIST_REQ_Handler(Connection connection, ISerializable req)
         {
             var rsp = PcapUtils.FromJson<NKMPacket_EQUIP_PRESET_LIST_ACK>();
 
             return rsp;
         }
 
-        public static NKMPacket_FRIEND_LIST_ACK kNKMPacket_FRIEND_LIST_REQ_Handler(ISerializable req)
+        public static NKMPacket_FRIEND_LIST_ACK kNKMPacket_FRIEND_LIST_REQ_Handler(Connection connection, ISerializable req)
         {
             return new NKMPacket_FRIEND_LIST_ACK()
             {
@@ -103,7 +107,7 @@ namespace ALTNet.GameServer.Handlers
                 list = []
             };
         }
-        public static NKMPacket_GREETING_MESSAGE_ACK kNKMPacket_GREETING_MESSAGE_REQ_Handler(ISerializable req)
+        public static NKMPacket_GREETING_MESSAGE_ACK kNKMPacket_GREETING_MESSAGE_REQ_Handler(Connection connection, ISerializable req)
         {
             return new NKMPacket_GREETING_MESSAGE_ACK()
             {
@@ -112,7 +116,7 @@ namespace ALTNet.GameServer.Handlers
             };
         }
 
-        public static NKMPacket_FAVORITES_STAGE_ACK kNKMPacket_FAVORITES_STAGE_REQ_Handler(ISerializable req)
+        public static NKMPacket_FAVORITES_STAGE_ACK kNKMPacket_FAVORITES_STAGE_REQ_Handler(Connection connection, ISerializable req)
         {
             return new NKMPacket_FAVORITES_STAGE_ACK()
             {
@@ -121,14 +125,14 @@ namespace ALTNet.GameServer.Handlers
             };
         }
 
-        public static NKMPacket_GAME_LOAD_ACK kNKMPacket_GAME_LOAD_REQ_Handler(ISerializable req)
+        public static NKMPacket_GAME_LOAD_ACK kNKMPacket_GAME_LOAD_REQ_Handler(Connection connection, ISerializable req)
         {
             var rsp = PcapUtils.FromJson<NKMPacket_GAME_LOAD_ACK>();
 
             return rsp;
         }
 
-        public static NKMPacket_SERVER_TIME_ACK kNKMPacket_SERVER_TIME_REQ_Handler(ISerializable req)
+        public static NKMPacket_SERVER_TIME_ACK kNKMPacket_SERVER_TIME_REQ_Handler(Connection connection, ISerializable req)
         {
             return new NKMPacket_SERVER_TIME_ACK()
             {
@@ -136,7 +140,7 @@ namespace ALTNet.GameServer.Handlers
             };
         }
 
-        public static NKMPacket_REFRESH_COMPANY_BUFF_ACK kNKMPacket_REFRESH_COMPANY_BUFF_REQ_Handler(ISerializable req)
+        public static NKMPacket_REFRESH_COMPANY_BUFF_ACK kNKMPacket_REFRESH_COMPANY_BUFF_REQ_Handler(Connection connection, ISerializable req)
         {
             return new NKMPacket_REFRESH_COMPANY_BUFF_ACK()
             {
@@ -149,7 +153,7 @@ namespace ALTNet.GameServer.Handlers
             };
         }
 
-        public static NKMPacket_HEART_BIT_ACK kNKMPacket_HEART_BIT_REQ_Handler(ISerializable req)
+        public static NKMPacket_HEART_BIT_ACK kNKMPacket_HEART_BIT_REQ_Handler(Connection connection, ISerializable req)
         {
             return new NKMPacket_HEART_BIT_ACK()
             {
@@ -157,7 +161,7 @@ namespace ALTNet.GameServer.Handlers
             };
         }
 
-        public static NKMPacket_RECONNECT_ACK kNKMPacket_RECONNECT_REQ_Handler(NKMPacket_RECONNECT_REQ req)
+        public static NKMPacket_RECONNECT_ACK kNKMPacket_RECONNECT_REQ_Handler(Connection connection, NKMPacket_RECONNECT_REQ req)
         {
             Config.ReconnectKey = req.reconnectKey;
             //NTI1MDIyMjAwNTUzODk4MTk5N3w4MDcwNDUwNTMyMjQ5NjY1NjM2fDYzM2VjMDQxNWU1YzQyNDZhMWQwMWE5Yjg3OTgzNzI4
@@ -167,24 +171,30 @@ namespace ALTNet.GameServer.Handlers
             return rsp;
         }
 
-        public static NKMPacket_GAME_LOAD_COMPLETE_ACK kNKMPacket_GAME_LOAD_COMPLETE_REQ_Handler(ISerializable req)
+        public static NKMPacket_GAME_LOAD_COMPLETE_ACK kNKMPacket_GAME_LOAD_COMPLETE_REQ_Handler(Connection connection, ISerializable req)
         {
             var rsp = PcapUtils.FromJson<NKMPacket_GAME_LOAD_COMPLETE_ACK>();
 
             return rsp;
         }
 
-        public static NKMPacket_UI_SCEN_CHANGED_REQ kNKMPacket_UI_SCEN_CHANGED_REQ_Handler(ISerializable req)
+        public static NKMPacket_GAME_LOAD_COMPLETE_ACK kNKMPacket_UI_SCEN_CHANGED_REQ_Handler(Connection connection, ISerializable req)
         {
-            return null;
+            var rsp = PcapUtils.FromJson<NKMPacket_GAME_LOAD_COMPLETE_ACK>();
+
+            return rsp;
         }
 
-        public static NKMPacket_INFORM_MY_LOADING_PROGRESS_REQ kNKMPacket_INFORM_MY_LOADING_PROGRESS_REQ_Handler(ISerializable req)
+        public static NKMPacket_GAME_LOAD_COMPLETE_ACK kNKMPacket_INFORM_MY_LOADING_PROGRESS_REQ_Handler(Connection connection, NKMPacket_INFORM_MY_LOADING_PROGRESS_REQ req)
         {
-            return null;
+            Log.Information("NKMPacket_INFORM_MY_LOADING_PROGRESS_REQ Progress: " + req.progress);
+
+            var rsp = PcapUtils.FromJson<NKMPacket_GAME_LOAD_COMPLETE_ACK>();
+
+            return rsp;
         }
 
-        public static NKMPacket_DEFENCE_INFO_ACK kNKMPacket_DEFENCE_INFO_REQ_Handler(ISerializable req)
+        public static NKMPacket_DEFENCE_INFO_ACK kNKMPacket_DEFENCE_INFO_REQ_Handler(Connection connection, ISerializable req)
         {
             var rsp = PcapUtils.FromJson<NKMPacket_DEFENCE_INFO_ACK>();
 

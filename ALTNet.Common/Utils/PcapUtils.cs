@@ -49,6 +49,8 @@ namespace ALTNet.Common.Utils
             public string PacketId { get; set; }
 
             public object Payload { get; set; }
+
+            public long Sequence { get; set; }
         }
 
         public class DefaultValuesContractResolver : DefaultContractResolver

@@ -4,6 +4,7 @@ using Protocol;
 using Serilog;
 using System.IO;
 using System.Net.Sockets;
+using System.Reflection;
 
 namespace ALTNet.GameServer.Protocol
 {
@@ -70,7 +71,6 @@ namespace ALTNet.GameServer.Protocol
 
 
                 // ----------- Packet Decoding ---------`--- \\
-
                 ISerializable packet = Packet.DecodeFromStream(this.reader);
                 ClientPacketId packetId = (ClientPacketId)Packet.GetPacketId(packet);
                 // ---------------------------------------- \\
@@ -87,7 +87,7 @@ namespace ALTNet.GameServer.Protocol
                 }
                 // ---------------------------------------- \\
 
-                ISerializable response = GameServer.PacketHandler(packetId, packet);
+                ISerializable response = this.HandlePacket(packetId, packet);
 
                 if (response == null)
                 {
@@ -121,6 +121,35 @@ namespace ALTNet.GameServer.Protocol
 
             this.sendController.Push(packet.Value);
             return true;
+        }
+
+        private ISerializable HandlePacket(ClientPacketId packetId, ISerializable req)
+        {
+            Log.Information($"Handling Packet: {packetId}...");
+
+            var handler = GetHandler(packetId);
+
+            if (handler != null)
+            {
+                Log.Information($"Found handler: {handler} for packetId: {packetId}");
+
+                var rsp = handler.Invoke(null, [this, req]) as ISerializable;
+
+                return rsp;
+            }
+
+            Log.Information($"No handler for packet {packetId}!");
+            return null;
+        }
+
+        private MethodInfo GetHandler(ClientPacketId packetId)
+        {
+            var type = typeof(Handlers.Handlers);
+            var handlerName = $"{packetId}_Handler";
+
+            MethodInfo methodInfo = type.GetMethod(handlerName, BindingFlags.Static | BindingFlags.Public);
+
+            return methodInfo;
         }
     }
 }
